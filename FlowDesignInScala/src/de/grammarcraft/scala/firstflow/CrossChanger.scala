@@ -32,6 +32,10 @@ class CrossChanger(val name: String) extends Actor {
     	println("no binding defined for output2")
     	return
     }
+    println("waiting 3 seconds...")
+    Thread.sleep(3000) // even we are sleeping here
+    // the seconds message does not overtake the first one
+    // due to the event based nature of react in the act() event loop
     output2(msg)
   }
 

@@ -4,11 +4,13 @@ run them...
 finished.
 first message received as input1 for crossing1
 process first message as input1 for crossing1
-second message received as input2 for crossing1
-process second message as input2 for crossing1
+waiting 3 seconds...
 first message received as input2 for crossing2
 process first message as input2 for crossing2
 received first message over output1 of crossing2
+second message received as input2 for crossing1
+process second message as input2 for crossing1
 second message received as input1 for crossing2
 process second message as input1 for crossing2
+waiting 3 seconds...
 received second message over output2 of crossing2
