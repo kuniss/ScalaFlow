@@ -27,15 +27,12 @@ class CrossChanger(val name: String) extends Actor {
   }
   
   def processInput1(msg: Any) {
-    println("process " + msg + " as input1 for " + this)
+    println("process " + msg + " as input1 for " + this + " takes 1 second...")
+    Thread.sleep(1000) 
     if (output2 == null) {
     	println("no binding defined for output2")
     	return
     }
-    println("waiting 3 seconds...")
-    Thread.sleep(3000) // even we are sleeping here
-    // the seconds message does not overtake the first one
-    // due to the event based nature of react in the act() event loop
     output2(msg)
   }
 

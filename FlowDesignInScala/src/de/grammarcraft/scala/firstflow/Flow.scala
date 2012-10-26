@@ -4,7 +4,7 @@ object Flow {
   def main(args: Array[String]) {
 	  // instantiate
 	  println("instantiate flow units...")
-	  val op1 = new CrossChanger("crossing1")
+	  val op1 = new AsyncCrossChanger("crossing1")
 	  val op2 = new CrossChanger("crossing2")
 	  
 	  // bind
@@ -18,7 +18,9 @@ object Flow {
 	  println("run them...")
 	  op1.start()
 	  op2.start()
+	  println("send first message")
 	  op1.input1("first message")
+	  println("send second message")
 	  op1.input2("second message")
 
 	  println("finished.")
