@@ -18,6 +18,7 @@ class AsyncCrossChanger(val name: String) extends Actor {
             println(msg + " asynchronously received as input1 for " + AsyncCrossChanger.this)
             processInput1(msg)
           }
+          case "STOP" => exit()
         }
       }
     }
@@ -31,6 +32,7 @@ class AsyncCrossChanger(val name: String) extends Actor {
             println(msg + " asynchronously received as input2 for " + AsyncCrossChanger.this)
             processInput2(msg)
           }
+          case "STOP" => exit()
         }
       }
     }
@@ -46,6 +48,11 @@ class AsyncCrossChanger(val name: String) extends Actor {
         case i @ Input2(msg) => {
             println("asynchonously process " + msg + " as input2 for " + this)
         	asynchronizer2 ! i
+        }
+        case stop @ "STOP" => {
+        	asynchronizer1!stop
+        	asynchronizer2!stop
+        	exit()
         }
         case msg => println("Unknown msg received: " + msg)
       }
@@ -80,6 +87,10 @@ class AsyncCrossChanger(val name: String) extends Actor {
   }
   
   override def toString:String = name
+  
+  def stop() {
+    this!"STOP"
+  }
   
   // class initialization - start internal actors
   asynchronizer1.start()

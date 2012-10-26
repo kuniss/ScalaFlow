@@ -21,6 +21,7 @@ class CrossChanger(val name: String) extends Actor {
         	println(msg + " received as input2 for " + this)
         	processInput2(msg)
         }
+        case "STOP" => exit()
         case msg => println("Unknown msg received: " + msg)
       }
     }
@@ -54,5 +55,9 @@ class CrossChanger(val name: String) extends Actor {
   }
   
   override def toString:String = name
+
+  def stop() {
+    this!"STOP"
+  }
 
 }

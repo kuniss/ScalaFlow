@@ -11,9 +11,13 @@ object Flow {
 	  println("bind them...")
 	  op1.output1 = op2.input1
 	  op1.output2 = op2.input2
-	  op2.output1 = msg => println("received " + msg + " over output1 of " + op2)
+	  op2.output1 = msg => {
+		  println("received " + msg + " over output1 of " + op2)
+		  op1.stop()
+		  op2.stop()
+	  }
 	  op2.output2 = msg => println("received " + msg + " over output2 of " + op2)
-	  
+
 	  // start
 	  println("run them...")
 	  op1.start()
