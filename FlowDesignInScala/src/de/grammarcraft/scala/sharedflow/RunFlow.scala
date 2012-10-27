@@ -3,7 +3,7 @@ package de.grammarcraft.scala.sharedflow
 
 object RunFlow {
   def main(args: Array[String]) {
-	  // instantiate
+	  // build
 	  println("instantiate flow units...")
 	  val reverse = new Reverse
 	  val toLower = new ToLower
@@ -12,11 +12,11 @@ object RunFlow {
 	  
 	  // bind
 	  println("bind them...")
-	  reverse.bindOutputTo(toLower.input)
-	  reverse.bindOutputTo(toUpper.input)
-	  toLower.bindOutputTo(collector.input1)
-	  toUpper.bindOutputTo(collector.input2)
-	  collector.bindOutputTo(msg => {
+	  reverse bindOutputTo toLower.input
+	  reverse bindOutputTo toUpper.input
+	  toLower bindOutputTo collector.input1
+	  toUpper bindOutputTo collector.input2
+	  collector bindOutputTo(msg => {
 		  println("received '" + msg + "' from " + collector)
 		  reverse.stop()
 		  toLower.stop()
@@ -24,7 +24,7 @@ object RunFlow {
 		  collector.stop()
 	  })
 
-	  // start
+	  // run
 	  println("run them...")
 	  reverse.start()
 	  toLower.start()
