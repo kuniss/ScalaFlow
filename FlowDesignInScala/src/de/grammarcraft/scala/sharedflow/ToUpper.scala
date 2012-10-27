@@ -6,6 +6,10 @@ class ToUpper extends Actor {
   
   case class Input(msg: String)
   
+  def input(msg: String) {
+	  this!Input(msg)
+  }
+  
   def act() {
     loop {
       react {
@@ -18,7 +22,6 @@ class ToUpper extends Actor {
     }
   }
   
-  def process(msg: String): String = msg.toUpperCase()
 
   private[this] var outputTargets: List[String => Unit] = List()
   
@@ -34,15 +37,15 @@ class ToUpper extends Actor {
 	    println("no binding defined for output of " + this)
 	  }
   }
+
   
-  def input(msg: String) {
-    this!Input(msg)
-  }
-
-  override def toString:String = "ToUpper"
-
+  def process(msg: String): String = msg.toUpperCase()
+  
+  
   def stop() {
     this!"STOP"
   }
+
+  override def toString:String = "ToUpper"
 
 }

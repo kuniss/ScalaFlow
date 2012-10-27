@@ -7,6 +7,13 @@ class Collector(val separator: String) extends Actor {
   case class Input1(msg: String)
   case class Input2(msg: String)
   
+  def input1(msg: String) {
+	  this!Input1(msg)
+  }
+  
+  def input2(msg: String) {
+	  this!Input2(msg)
+  }
 
   def act() {
     loop {
@@ -23,14 +30,8 @@ class Collector(val separator: String) extends Actor {
       }
     }
   }
-  
-  private[this] var accumulation: List[String] = List()
-  
-  def accumulateInput(msg: String) {
-    accumulation = msg :: accumulation
-    if (accumulation.length == 2) output(accumulation mkString(separator))
-  }
 
+  
   private[this] var outputTargets: List[String => Unit] = List()
   
   def bindOutputTo(operation: String => Unit) {
@@ -45,14 +46,15 @@ class Collector(val separator: String) extends Actor {
 	    println("no binding defined for output of " + this)
 	  }
   }
-  
-  def input1(msg: String) {
-    this!Input1(msg)
-  }
 
-  def input2(msg: String) {
-    this!Input2(msg)
+  
+  private[this] var accumulation: List[String] = List()
+		  
+  def accumulateInput(msg: String) {
+	  accumulation = msg :: accumulation
+	  if (accumulation.length == 2) output(accumulation mkString(separator))
   }
+  
   
   override def toString:String = "Collector"
   

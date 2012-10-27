@@ -6,6 +6,10 @@ class ToLower extends Actor {
   
   case class Input(msg: String)
   
+  def input(msg: String) {
+	  this!Input(msg)
+  }
+  
   def act() {
     loop {
       react {
@@ -18,8 +22,7 @@ class ToLower extends Actor {
     }
   }
   
-  def process(msg: String): String = msg.toLowerCase()
-
+  
   private[this] var outputTargets: List[String => Unit] = List()
   
   def bindOutputTo(operation: String => Unit) {
@@ -35,10 +38,10 @@ class ToLower extends Actor {
 	  }
   }
   
-  def input(msg: String) {
-    this!Input(msg)
-  }
+  
+  def process(msg: String): String = msg.toLowerCase()
 
+  
   override def toString:String = "ToLower"
 
   def stop() {
