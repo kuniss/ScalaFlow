@@ -6,6 +6,4 @@ finished.
 'Trug Tim eine so helle Hose nie mit Gurt?' received as input for Reverse
 '?truG tim ein esoH elleh os enie miT gurT' received as input for ToUpper
 '?truG tim ein esoH elleh os enie miT gurT' received as input for ToLower
-'?TRUG TIM EIN ESOH ELLEH OS ENIE MIT GURT' received as input2 for Collector
-'?trug tim ein esoh elleh os enie mit gurt' received as input1 for Collector
-received '?trug tim ein esoh elleh os enie mit gurt, ?TRUG TIM EIN ESOH ELLEH OS ENIE MIT GURT' from Collector
+exception happended at ToUpper: artifical exception for testing purposes; '?truG tim ein esoH elleh os enie miT gurT' will not be processed

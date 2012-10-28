@@ -9,6 +9,13 @@ object RunFlow {
 	  val toLower = new ToLower
 	  val toUpper = new ToUpper
 	  val collector = new Collector(", ")
+
+	  def stopAll() {
+		  reverse.stop()
+		  toLower.stop()
+		  toUpper.stop()
+		  collector.stop()
+	  }
 	  
 	  // bind
 	  println("bind them...")
@@ -18,10 +25,28 @@ object RunFlow {
 	  toUpper bindOutputTo collector.input2
 	  collector bindOutputTo(msg => {
 		  println("received '" + msg + "' from " + collector)
-		  reverse.stop()
-		  toLower.stop()
-		  toUpper.stop()
-		  collector.stop()
+		  stopAll()
+	  })
+	  // error handling
+	  toUpper bindErrorTo(exception => {
+	    println("exception happended at " + toUpper + 
+	        ": " + exception.getMessage())
+	        stopAll()
+	  })
+	  toLower bindErrorTo(exception => {
+	    println("exception happended at " + toLower + 
+	        ": " + exception.getMessage())
+	        stopAll()
+	  })
+	  reverse bindErrorTo(exception => {
+	    println("exception happended at " + reverse + 
+	        ": " + exception.getMessage())
+	        stopAll()
+	  })
+	  collector bindErrorTo(exception => {
+	    println("exception happended at " + collector + 
+	        ": " + exception.getMessage())
+	        stopAll()
 	  })
 
 	  // run
@@ -35,6 +60,7 @@ object RunFlow {
 	  reverse.input(palindrom)
 
 	  println("finished.")
+	  
   }
 
 }
