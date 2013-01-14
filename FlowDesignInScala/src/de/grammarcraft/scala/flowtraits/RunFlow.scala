@@ -12,8 +12,8 @@ object RunFlow {
 	  
 	  // bind
 	  println("bind them...")
-	  reverse bindOutputTo toLower.input
-	  reverse bindOutputTo toUpper.input
+	  reverse bindOutputTo toLower
+	  reverse bindOutputTo toUpper
 	  toLower bindOutputTo collector.lower
 	  toUpper bindOutputTo collector.upper
 	  collector bindOutputTo(msg => {
