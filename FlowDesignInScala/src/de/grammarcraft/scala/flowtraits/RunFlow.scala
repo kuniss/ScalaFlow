@@ -14,8 +14,8 @@ object RunFlow {
 	  println("bind them...")
 	  reverse bindOutputTo toLower.input
 	  reverse bindOutputTo toUpper.input
-	  toLower bindOutputTo collector.input1
-	  toUpper bindOutputTo collector.input2
+	  toLower bindOutputTo collector.lower
+	  toUpper bindOutputTo collector.upper
 	  collector bindOutputTo(msg => {
 		  println("received '" + msg + "' from " + collector)
 	  })

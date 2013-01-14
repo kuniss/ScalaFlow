@@ -14,11 +14,16 @@ class Collector(val separator: String) extends FunctionUnit("Collector")
     accumulateInput(msg)
   }
   
+  // give ports meaningful names
+  val lower = input1 _
+  val upper = input2 _
+  val result = output _
+  
   private[this] var accumulation: List[String] = List()
 		  
   private def accumulateInput(msg: String) {
 	  accumulation = msg :: accumulation
-	  if (accumulation.length == 2) output(accumulation mkString(separator))
+	  if (accumulation.length == 2) result(accumulation mkString(separator))
   }
 
 }
