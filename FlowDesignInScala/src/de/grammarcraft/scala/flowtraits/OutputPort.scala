@@ -11,6 +11,8 @@ trait OutputPort[T] {
   def bindOutputTo(operation: T => Unit) {
 	  outputOperations = operation :: outputOperations
   }
+
+  def -> (operation: T => Unit) = bindOutputTo(operation)
   
   // to void port name specification at binding
   def bindOutputTo(functionUnit: InputPort[T]) {
@@ -18,6 +20,8 @@ trait OutputPort[T] {
 	  //                                    ^ partially applied function
   }
   
+  def -> (functionUnit: InputPort[T]) = bindOutputTo(functionUnit)
+    
   protected def output(msg: T) {
 	  if (!outputOperations.isEmpty) {
 	    outputOperations.foreach(operation => operation(msg))
