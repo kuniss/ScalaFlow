@@ -1,0 +1,7 @@
+/
+.in, Reverse
+Reverse, ToLower
+Reverse, ToUpper
+ToLower, Collector.input1
+ToUpper, Collector.input2
+Collector, .out
