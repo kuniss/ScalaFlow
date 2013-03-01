@@ -5,7 +5,7 @@ class Reverse extends FunctionUnit("Reverse")
 	with OutputPort[String] 
 {
   
-  protected def process(msg: String) {
+  protected def processInput(msg: String) {
     output(msg.reverse)
   }
 

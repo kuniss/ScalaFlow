@@ -6,7 +6,7 @@ class ToLower extends FunctionUnit("ToLower")
 	with ErrorPort[String]
 {
 
-  protected def process(msg: String) {
+  protected def processInput(msg: String) {
     output(msg.toLowerCase())
 //    error("artifical error for testing purposes; '" + 
 //        msg + "' will not be processed")

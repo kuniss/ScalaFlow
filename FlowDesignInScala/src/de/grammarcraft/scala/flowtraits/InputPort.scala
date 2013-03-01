@@ -6,10 +6,10 @@ package de.grammarcraft.scala.flowtraits
  */
 trait InputPort[T] {
 
-  protected def process(msg: T): Unit
+  protected def processInput(msg: T): Unit
   
   def input(msg: T) {
-	  process(msg)
+	  processInput(msg)
   }
 
 }

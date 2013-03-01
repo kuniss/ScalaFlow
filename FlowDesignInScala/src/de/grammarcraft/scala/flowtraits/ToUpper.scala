@@ -5,7 +5,7 @@ class ToUpper extends FunctionUnit("ToUpper")
 	with OutputPort[String]
 {
 
-  protected def process(msg: String) {
+  protected def processInput(msg: String) {
     output(msg.toUpperCase())
   }
 
