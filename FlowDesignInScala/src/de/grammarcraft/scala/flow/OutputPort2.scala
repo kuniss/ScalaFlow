@@ -8,38 +8,27 @@ package de.grammarcraft.scala.flow
  * @author kuniss@grammarcraft.de
  *
  */
-trait OutputPort[T] {
+trait OutputPort2[T] {
   
   private[this] var outputOperations: List[T => Unit] = List()
   
   /**
-   * Lets the function unit output flow to the given input port and
-   * in that way connects both function units.
-   */
-  def -> (operation: T => Unit) = outputIsProcessedBy(operation)
-		  
-  /**
    * Lets the function unit output be processed by the given function closure.  
    */
-  def outputIsProcessedBy(operation: T => Unit) {
+  def output2IsProcessedBy(operation: T => Unit) {
 	  outputOperations = operation :: outputOperations
   }
 
-  // to void port name specification at binding
-  /**
-   * Lets the function unit output flow to the given one and only input port of the given
-   * function unit and in that way connects both function units.
-   */
-  def -> (functionUnit: InputPort[T]) {
-	  outputOperations = functionUnit.input _ :: outputOperations
-	  //                                    ^ partially applied function
+  class _OutputPort2(val outputPort: OutputPort2[T]) {
+	  def -> (operation: T => Unit) = outputPort.output2IsProcessedBy(operation)
   }
-    
   
+  val output2 = new _OutputPort2(this)
+
   /**
    * The (by convention) one only one function unit's output port.
    */
-  def forwardOutput(msg: T) {
+  def forwardOutput2(msg: T) {
 	  if (!outputOperations.isEmpty) {
 	    outputOperations.foreach(operation => operation(msg))
 	  }
@@ -47,7 +36,5 @@ trait OutputPort[T] {
 	    println("no output port defined for " + this + ": '" + 
 	        msg + "' could not be delivered") 
   }
-
-  
 
 }
