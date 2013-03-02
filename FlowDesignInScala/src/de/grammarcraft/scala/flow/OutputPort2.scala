@@ -19,10 +19,13 @@ trait OutputPort2[T] {
 	  outputOperations = operation :: outputOperations
   }
 
+  /**
+   * Helper class for syntactic sugar allowing to write connection down as
+   * <i>fu.output2</i> -> <i>receiver</i>. See definition of value <i>output2</i>.
+   */  
   class _OutputPort2(val outputPort: OutputPort2[T]) {
 	  def -> (operation: T => Unit) = outputPort.output2IsProcessedBy(operation)
   }
-  
   val output2 = new _OutputPort2(this)
 
   /**

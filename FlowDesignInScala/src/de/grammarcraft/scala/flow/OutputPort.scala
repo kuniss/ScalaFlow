@@ -25,6 +25,15 @@ trait OutputPort[T] {
 	  outputOperations = operation :: outputOperations
   }
 
+  /**
+   * Helper class for syntactic sugar allowing to write connection down as
+   * <i>fu.output</i> -> <i>receiver</i>. See definition of value <i>output</i>.
+   */
+  class _OutputPort(val outputPort: OutputPort[T]) {
+	  def -> (operation: T => Unit) = outputPort.outputIsProcessedBy(operation)
+  }
+  val output = new _OutputPort(this)
+  
   // to void port name specification at binding
   /**
    * Lets the function unit output flow to the given one and only input port of the given
