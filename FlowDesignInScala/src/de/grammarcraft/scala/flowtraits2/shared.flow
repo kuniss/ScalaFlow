@@ -1,7 +1,13 @@
 /
 .in, Reverse
-Reverse, ToLower
+Reverse, Normalizer
 Reverse, ToUpper
-ToLower, Collector.input1
-ToUpper, Collector.input2
+Normalizer.lower, Collector.lower
+Normalizer.upper, Collector.upper
 Collector, .out
+
+Normalizer
+.in, ToLower
+.in, ToUpper
+ToLower, .lower
+ToUpper, .upper
