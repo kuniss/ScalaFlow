@@ -8,37 +8,36 @@ package de.grammarcraft.scala.flow
  * @author kuniss@grammarcraft.de
  *
  */
-trait OutputPort[T] {
+trait OutputPort[T] { port =>
   
   private[this] var outputOperations: List[T => Unit] = List()
   
   /**
-   * Lets the function unit output flow to the given input port and
-   * in that way connects both function units.
+   * Lets the function unit output flow to the given input port
+   * connecting both function units.
    */
   def -> (operation: T => Unit) = outputIsProcessedBy(operation)
 		  
   /**
    * Lets the function unit output be processed by the given function closure.  
    */
-  def outputIsProcessedBy(operation: T => Unit) {
+  private def outputIsProcessedBy(operation: T => Unit) {
 	  outputOperations = operation :: outputOperations
   }
 
   /**
-   * Helper class for syntactic sugar allowing to write connection down as
+   * Helper object for syntactic sugar allowing to write connection down as
    * <i>fu.output</i> -> <i>receiver</i>. See definition of value <i>output</i>.
    */
-  class _OutputPort(val outputPort: OutputPort[T]) {
-	  def -> (operation: T => Unit) = outputPort.outputIsProcessedBy(operation)
-	  def isProcessedBy(operation: T => Unit) = outputPort.outputIsProcessedBy(operation)
+  val output = new Object {
+	  def -> (operation: T => Unit) = port.outputIsProcessedBy(operation)
+	  def isProcessedBy(operation: T => Unit) = port.outputIsProcessedBy(operation)
   }
-  val output = new _OutputPort(this)
   
   // to void port name specification at binding
   /**
    * Lets the function unit output flow to the given one and only input port of the given
-   * function unit and in that way connects both function units.
+   * function unit connecting both function units.
    */
   def -> (functionUnit: InputPort[T]) {
 	  outputOperations = functionUnit.input _ :: outputOperations
@@ -49,7 +48,7 @@ trait OutputPort[T] {
   /**
    * The (by convention) one only one function unit's output port.
    */
-  def forwardOutput(msg: T) {
+  protected def forwardOutput(msg: T) {
 	  if (!outputOperations.isEmpty) {
 	    outputOperations.foreach(operation => operation(msg))
 	  }
