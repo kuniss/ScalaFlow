@@ -25,6 +25,7 @@ trait OutputPort2[T] {
    */  
   class _OutputPort2(val outputPort: OutputPort2[T]) {
 	  def -> (operation: T => Unit) = outputPort.output2IsProcessedBy(operation)
+	  def isProcessedBy(operation: T => Unit) = outputPort.output2IsProcessedBy(operation)
   }
   val output2 = new _OutputPort2(this)
 

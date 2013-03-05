@@ -9,7 +9,7 @@ import de.grammarcraft.scala.flow.OutputPort2
  * @author kuniss
  *
  */
-final class Normalizer extends FunctionUnit("Normalizer") 
+final class Normalize extends FunctionUnit("Normalize") 
 	with InputPort[String]
     with OutputPort1[String]
     with OutputPort2[String]
@@ -19,8 +19,8 @@ final class Normalizer extends FunctionUnit("Normalizer")
 	val toUpper = new ToUpper
 
 	// bind 
-	toLower -> forwardOutput1 _
-	toUpper -> forwardOutput2 _
+	toLower.output isProcessedBy(forwardOutput1)
+	toUpper.output isProcessedBy(forwardOutput2)
 
 	// for meaningful names on binding to context
 	val lower = output1

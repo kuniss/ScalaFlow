@@ -6,7 +6,7 @@ object RunFlow {
 	  // build
 	  println("instantiate flow units...")
 	  val reverse = new Reverse
-	  val normalizer = new Normalizer
+	  val normalizer = new Normalize
 	  val collector = new Collector(", ")
 	  
 	  // bind
@@ -14,7 +14,7 @@ object RunFlow {
 	  reverse -> normalizer
 	  normalizer.lower -> collector.lower
 	  normalizer.upper -> collector.upper
-	  collector outputIsProcessedBy(msg => {
+	  collector.output isProcessedBy(msg => {
 		  println("received '" + msg + "' from " + collector)
 	  })
 
