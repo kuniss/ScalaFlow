@@ -1,5 +1,6 @@
 package de.grammarcraft.scala.flowtraits2
 
+import de.grammarcraft.scala.flow.FunctionUnit._
 
 object RunFlow {
   def main(args: Array[String]) {
@@ -18,10 +19,15 @@ object RunFlow {
 	  collector.output isProcessedBy(msg => {
 		  println("received '" + msg + "' from " + collector)
 	  })
-	  collector.error isProcessedBy(msg => {
-		  println("error received from " + collector + ": " + msg)
-	  })
 
+	  onErrorAt(collector)  {
+	    msg => println("error received from " + collector + ": " + msg)
+	  }
+	  
+	  onIntegrationErrorAt(reverse, normalizer, notConnectedFunctionUnit) {
+		  errMsg => System.err.println("integration error happened: " + errMsg)
+	  }
+	  
 	  // run
 	  println("run them...")
 	  val palindrom = "Trug Tim eine so helle Hose nie mit Gurt?"
