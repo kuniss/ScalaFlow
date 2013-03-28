@@ -8,6 +8,7 @@ object RunFlow {
 	  val reverse = new Reverse
 	  val normalizer = new Normalize
 	  val collector = new Collector(", ")
+	  val notConnectedFunctionUnit = new Reverse
 	  
 	  // bind
 	  println("bind them...")
@@ -28,6 +29,8 @@ object RunFlow {
 	  reverse.input(palindrom)
 
 	  reverse.input(palindrom) // second call should raise an error message on the Collectors error port
+
+	  notConnectedFunctionUnit.input(palindrom) // should raise an integration error as function unit is not connected to any one
 	  
 	  println("finished.")
 	  

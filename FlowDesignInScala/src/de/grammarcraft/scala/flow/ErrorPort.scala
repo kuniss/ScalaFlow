@@ -7,7 +7,7 @@ package de.grammarcraft.scala.flow
  * @author kuniss@grammarcraft.de
  *
  */
-trait ErrorPort[T] { port =>
+trait ErrorPort[T] extends FunctionUnit { port =>
   
   private[this] var errorOperations: List[T => Unit] = List()
  
@@ -35,7 +35,7 @@ trait ErrorPort[T] { port =>
 		  errorOperations.foreach(forward => forward(exception))
 	  }
 	  else {
-		  println("no binding defined for error port of " + this)
+		  forwardIntegrationError("no binding defined for error port of " + this)
 	  }
   }
 

@@ -8,6 +8,7 @@ final class Reverse extends FunctionUnit("Reverse")
 	with InputPort[String] 
 	with OutputPort[String] 
 {
+  override protected val OutputPortName = "reversedString"
   
   protected def processInput(msg: String) {
     forwardOutput(msg.reverse)

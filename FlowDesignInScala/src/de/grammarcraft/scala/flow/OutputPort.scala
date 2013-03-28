@@ -8,7 +8,7 @@ package de.grammarcraft.scala.flow
  * @author kuniss@grammarcraft.de
  *
  */
-trait OutputPort[T] { port =>
+trait OutputPort[T] extends FunctionUnit { port =>
   
   private[this] var outputOperations: List[T => Unit] = List()
   
@@ -26,6 +26,7 @@ trait OutputPort[T] { port =>
   }
 
   /**
+   * Represents the function unit's (by convention) one and only output port.
    * Helper object for syntactic sugar allowing to write connection down as
    * <i>fu.output</i> -> <i>receiver</i>. See definition of value <i>output</i>.
    */
@@ -44,16 +45,22 @@ trait OutputPort[T] { port =>
 	  //                                    ^ partially applied function
   }
     
+  /**
+   * The human readable name of this trait output port.
+   * May be overridden by the function unit mixing in this trait. Default is "output"
+   */
+  protected val OutputPortName = "output"
   
   /**
-   * The (by convention) one only one function unit's output port.
+   * Forwards the given message over the function units (by convention) one and only 
+   * output port to the function units connected to this port.
    */
   protected def forwardOutput(msg: T) {
 	  if (!outputOperations.isEmpty) {
 	    outputOperations.foreach(operation => operation(msg))
 	  }
 	  else
-	    println("no output port defined for " + this + ": '" + 
+	    forwardIntegrationError("nothing connected to port " + OutputPortName + " for " + this + ": '" + 
 	        msg + "' could not be delivered") 
   }
 
