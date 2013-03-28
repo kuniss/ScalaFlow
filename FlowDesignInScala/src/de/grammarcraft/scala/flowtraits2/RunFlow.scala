@@ -17,6 +17,9 @@ object RunFlow {
 	  collector.output isProcessedBy(msg => {
 		  println("received '" + msg + "' from " + collector)
 	  })
+	  collector.error isProcessedBy(msg => {
+		  println("error received from " + collector + ": " + msg)
+	  })
 
 	  // run
 	  println("run them...")
@@ -24,6 +27,8 @@ object RunFlow {
 	  println("send message: " + palindrom)
 	  reverse.input(palindrom)
 
+	  reverse.input(palindrom) // second call should raise an error message on the Collectors error port
+	  
 	  println("finished.")
 	  
   }
