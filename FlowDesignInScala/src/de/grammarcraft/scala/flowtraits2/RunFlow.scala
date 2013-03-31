@@ -21,7 +21,7 @@ object RunFlow {
 	  })
 
 	  onErrorAt(collector)  {
-	    msg => println("error received from " + collector + ": " + msg)
+		  errMsg => println("error received: " + errMsg)
 	  }
 	  
 	  onIntegrationErrorAt(reverse, normalizer, notConnectedFunctionUnit) {
