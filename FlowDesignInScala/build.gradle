@@ -17,6 +17,7 @@ contacts {
 
 bintray.user = "kuniss"
 bintray.pkg.version.mavenCentralSync.user = "kuniss"
+bintray.pkg.licenses = ["LGPL-3.0"]
 
 repositories.jcenter()
 
