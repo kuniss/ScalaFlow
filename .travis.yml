@@ -1,0 +1,6 @@
+language: java
+sudo: false
+cache:
+  directories:
+  - $HOME/.gradle
+script: cd FlowDesignInScala && ./gradlew check && ./.travis/releaseOnTag.sh
