@@ -3,3 +3,4 @@
 /.cache-main
 /build/
 /.gradle/
+/.cache-tests

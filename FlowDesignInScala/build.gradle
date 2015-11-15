@@ -27,6 +27,7 @@ dependencies {
 
 sourceSets {
 	main.scala.srcDir 'src'
+	test.scala.srcDir 'test/src'
 }
 
 task wrapper(type: Wrapper) {
