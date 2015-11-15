@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>FlowDesignInScala</name>
-	<comment></comment>
+	<name>de.grammarcraft.scala.flow</name>
+	<comment>Flow Design Library Implementation for Scala</comment>
 	<projects>
 	</projects>
 	<buildSpec>
@@ -13,6 +13,7 @@
 	</buildSpec>
 	<natures>
 		<nature>org.scala-ide.sdt.core.scalanature</nature>
+		<nature>org.springsource.ide.eclipse.gradle.core.nature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
 </projectDescription>
