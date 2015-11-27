@@ -20,7 +20,7 @@ package de.grammarcraft.scala.flow
 /**
  * Represents the one and only output port of function unit at flow design implementations in Scala.
  * Use this trait for function units with only one output port.
- * This is an restriction by convention an not checked.
+ * This is a restriction by convention and not checked.
  * 
  * @author kuniss@grammarcraft.de
  *
