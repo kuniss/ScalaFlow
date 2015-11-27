@@ -50,6 +50,7 @@ trait OutputPort[T] extends FunctionUnit { port =>
   val output = new Object {
 	  def -> (operation: T => Unit) = port.outputIsProcessedBy(operation)
 	  def isProcessedBy(operation: T => Unit) = port.outputIsProcessedBy(operation)
+	  def -> (functionUnitWithOnlyOneInputPort: InputPort[T]) = port.outputIsProcessedBy(functionUnitWithOnlyOneInputPort.input(_))
   }
   
   // to void port name specification at binding

@@ -44,6 +44,7 @@ trait OutputPort2[T] extends FunctionUnit { port =>
   val output2 = new Object {
 	  def -> (operation: T => Unit) = port.output2IsProcessedBy(operation)
 	  def isProcessedBy(operation: T => Unit) = port.output2IsProcessedBy(operation)
+	  def -> (functionUnitWithOnlyOneInputPort: InputPort[T]) = port.output2IsProcessedBy(functionUnitWithOnlyOneInputPort.input(_))
   }
 
   /**
