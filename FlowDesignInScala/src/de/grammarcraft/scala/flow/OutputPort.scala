@@ -25,7 +25,7 @@ package de.grammarcraft.scala.flow
  * @author kuniss@grammarcraft.de
  *
  */
-trait OutputPort[T] extends FunctionUnit { port =>
+trait OutputPort[T] extends FunctionUnit {
   
   private[this] var outputOperations: List[T => Unit] = List()
   
@@ -47,11 +47,7 @@ trait OutputPort[T] extends FunctionUnit { port =>
    * Helper object for syntactic sugar allowing to write connection down as
    * <i>fu.output</i> -> <i>receiver</i>. See definition of value <i>output</i>.
    */
-  val output = new Object {
-	  def -> (operation: T => Unit) = port.outputIsProcessedBy(operation)
-	  def isProcessedBy(operation: T => Unit) = port.outputIsProcessedBy(operation)
-	  def -> (functionUnitWithOnlyOneInputPort: InputPort[T]) = port.outputIsProcessedBy(functionUnitWithOnlyOneInputPort.input(_))
-  }
+  val output = new de.grammarcraft.scala.flow.dsl.OutputPort[T](outputIsProcessedBy(_))
   
   // to void port name specification at binding
   /**
