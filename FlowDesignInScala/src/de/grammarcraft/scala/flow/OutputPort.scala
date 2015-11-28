@@ -41,7 +41,7 @@ package de.grammarcraft.scala.flow {
     /**
      * Lets the function unit output be processed by the given function closure.  
      */
-    private def outputIsProcessedBy(operation: T => Unit) {
+    private[this] def outputIsProcessedBy(operation: T => Unit) {
   	  outputOperations = operation :: outputOperations
     }
   

@@ -32,7 +32,7 @@ trait OutputPort1[T] extends FunctionUnit {
   /**
    * Lets the function unit output be processed by the given function closure.  
    */
-  private def output1IsProcessedBy(operation: T => Unit) {
+  private[this] def output1IsProcessedBy(operation: T => Unit) {
 	  outputOperations = operation :: outputOperations
   }
   
