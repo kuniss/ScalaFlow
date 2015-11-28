@@ -30,8 +30,11 @@ trait OutputPort[T] extends FunctionUnit {
   private[this] var outputOperations: List[T => Unit] = List()
   
   /**
-   * Lets the function unit output flow to the given input port
-   * connecting both function units.
+   * Lets the function unit's output data flow to the given input port
+   * connecting both function units.<br>
+   * Flow DSL operator for connecting a function unit with one and only one output port to an 
+   * arbitrary function unit with explicitly specified input port. <br>
+   * E.g., <code>fu1 -> fu2.input</code>
    */
   def -> (operation: T => Unit) = outputIsProcessedBy(operation)
 		  
@@ -44,15 +47,21 @@ trait OutputPort[T] extends FunctionUnit {
 
   /**
    * Represents the function unit's (by convention) one and only output port.
-   * Helper object for syntactic sugar allowing to write connection down as
-   * <i>fu.output</i> -> <i>receiver</i>. See definition of value <i>output</i>.
+   * Helper object for syntactic sugar allowing to specify connections as
+   * <i>sender.output</i> -> <i>receiver</i>, or
+   * <i>sender.output</i> -> <i>receiver.input</i>, or
+   * <i>sender.output</i> -> <i>receiver</i>, or
+   * .
    */
   val output = new de.grammarcraft.scala.flow.dsl.OutputPort[T](outputIsProcessedBy(_))
   
   // to void port name specification at binding
   /**
-   * Lets the function unit output flow to the given one and only input port of the given
-   * function unit connecting both function units.
+   * Lets the function unit's output data flow to a function unit with one and only one input port 
+   * connecting both function units.<br>
+   * Flow DSL operator for connecting a function unit with one and only one output port to an 
+   * arbitrary function unit allowing to omit input port when specifying the flow connection. <br>
+   * E.g., <code><i>sender</i> -> <i>receiver.input</i><code>
    */
   def -> (functionUnit: InputPort[T]) {
 	  outputOperations = functionUnit.input _ :: outputOperations
