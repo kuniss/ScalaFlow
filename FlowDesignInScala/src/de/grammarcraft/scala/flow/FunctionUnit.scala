@@ -34,7 +34,7 @@ abstract class FunctionUnit(val name: String) {
    * Method for registration of integration error continuations at the companion object;
    * see below.
    */
-  private def onIntegrationError(integrationErrorOperation: String => Unit) {
+  private[flow] def onIntegrationError(integrationErrorOperation: String => Unit) {
 	  integrationErrorOperations = integrationErrorOperation :: integrationErrorOperations
   }
   
@@ -52,24 +52,4 @@ abstract class FunctionUnit(val name: String) {
 	  }
   }
 
-}
-
-final object FunctionUnit {
-  
-  /**
-   * Currying enabled method for binding the same integration error handling to 
-   * several function units at one
-   */
-  def onIntegrationErrorAt (functionUnitList: FunctionUnit*) (integrationErrorOperation: String => Unit) {
-	  functionUnitList.foreach( functionUnit => functionUnit.onIntegrationError(integrationErrorOperation) )
-  }
-  
-  /**
-   * Currying enabled method for binding at once the same error handling to 
-   * several function units with the same typed error port
-   */
-  def onErrorAt[ErrorType] (functionUnitWithErrorPortList: ErrorPort[ErrorType]*) (errorOperation: ErrorType => Unit) {
-	  functionUnitWithErrorPortList.foreach( functionUnit => functionUnit.error isProcessedBy(errorOperation) )
-  }
-  
 }

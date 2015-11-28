@@ -1,6 +1,6 @@
 package de.grammarcraft.scala.flowtraits2
 
-import de.grammarcraft.scala.flow.FunctionUnit._
+import de.grammarcraft.scala.flow.ControlStructures._
 
 object RunFlow {
   def main(args: Array[String]) {
