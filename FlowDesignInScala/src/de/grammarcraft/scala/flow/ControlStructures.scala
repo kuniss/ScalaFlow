@@ -4,7 +4,8 @@ object ControlStructures {
 
   /**
    * Flow DSl control structure allowing to specify in a code block what should be done with 
-   * output data of the given function unit's output port.<br>
+   * output data of the given function unit's output port. 
+   * Typically used to implement side effects like logging or displaying results.<br>
    * E.g., <code>
    * on(<i>fu.output</i>) { 
    *  	msg => println("result: " + msg)
@@ -15,10 +16,10 @@ object ControlStructures {
   
   /**
    * Flow DSl control structure allowing to specify in a code block what should be done for
-   * all given functionUnits on an intergation error .<br>
+   * a set of given function units on an intergation error.<br>
    * E.g., <code>
    * onIntegrationError(<i>fu1, fu2, fu3</i>) { 
-   *  	msg => println("intergaation error happened: " + msg)
+   *  	msg => println("integration error happened: " + msg)
    * }
    * </code>
    */
@@ -28,10 +29,10 @@ object ControlStructures {
   
   /**
    * Flow DSl control structure allowing to specify in a code block what should be done for
-   * all given error ports on an error .<br>
+   * a set of given error ports if an error message is arriving through on of these error ports.<br>
    * E.g., <code>
-   * onIntegrationError(<i>fu1, fu2, fu3</i>) { 
-   *  	msg => println("intergaation error happened: " + msg)
+   * onError(<i>fu1, fu2, fu3</i>) { 
+   *  	msg => println("error happened: " + msg)
    * }
    * </code>
    */
