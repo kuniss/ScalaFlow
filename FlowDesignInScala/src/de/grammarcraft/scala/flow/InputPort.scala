@@ -55,7 +55,7 @@ package de.grammarcraft.scala.flow {
      * of {@link #input1} when forwarding input data function unit input ports.<br>
      * Typically the definition is done as follows:<br>
      * <code>val <i>myPortName</i> = InputPort</code>.<br>
-     * "InputPort" directly corresponds literally to the "with InputPort" clause at the class
+     * "InputPort" literally corresponds  to the "with InputPort" clause at the class
      * definition header of this function unit.
      */
     val InputPort = input
