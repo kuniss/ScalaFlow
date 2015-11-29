@@ -60,10 +60,9 @@ package de.grammarcraft.scala.flow {
     /**
      * Represents the function unit's (by convention) one and only output port.
      * Helper object for syntactic sugar allowing to specify connections as
-     * <i>sender.output</i> -> <i>receiver</i>, or
-     * <i>sender.output</i> -> <i>receiver.input</i>, or
-     * <i>sender.output</i> -> <i>receiver</i>.
-     * .
+     * <code><i>sender.output</i> -> <i>receiver</i></code>, or
+     * <code><i>sender.output</i> -> <i>receiver.input</i></code>, or
+     * <code><i>sender.output</i> -> <i>receiver</i></code>.
      */
     val output = new dsl.OutputPort[T](outputIsProcessedBy(_), forwardOutput(_))
     
@@ -71,7 +70,9 @@ package de.grammarcraft.scala.flow {
      * Flow DSL construct to define user named output port which may be used instead 
      * of {@link #output1} when connecting function unit ports.<br>
      * Typically the definition is done as follows:<br>
-     * <code>val <i>myPortName</i> = OutputPort1("<i>myPortName</i>")</code>.
+     * <code>val <i>myPortName</i> = OutputPort("<i>myPortName</i>")</code>.<br>
+     * "OutputPort" literally corresponds to the "with OutputPort" clause at the class
+     * definition header of this function unit.
      * 
      * @param userPortName the name of this port used in integration error messages; 
      * by convention the name of variable this object is assigned to should be used
@@ -104,7 +105,7 @@ package de.grammarcraft.scala.flow {
       
   }
   
-  // Flow DSL specific operations
+  // Flow DSL specific operators
   package dsl {
 
     private[flow] class OutputPort[T](register: (T => Unit) => Unit, forward: T => Unit) {

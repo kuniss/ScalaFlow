@@ -67,6 +67,8 @@ trait OutputPort1[T] extends FunctionUnit {
    * of {@link #output1} when connecting function unit ports.<br>
    * Typically the definition is done as follows:<br>
    * <code>val <i>myPortName</i> = OutputPort1("<i>myPortName</i>")</code>.
+   * "OutputPort1" literally corresponds to the "with OutputPort1" clause at the class
+   * definition header of this function unit.
    * 
    * @param userPortName the name of this port used in integration error messages; 
    * by convention the name of variable this object is assigned to should be used
