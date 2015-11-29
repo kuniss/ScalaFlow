@@ -50,10 +50,10 @@ package de.grammarcraft.scala.flow {
      * Helper object for syntactic sugar allowing to specify connections as
      * <i>sender.output</i> -> <i>receiver</i>, or
      * <i>sender.output</i> -> <i>receiver.input</i>, or
-     * <i>sender.output</i> -> <i>receiver</i>, or
+     * <i>sender.output</i> -> <i>receiver</i>.
      * .
      */
-    val output = new dsl.OutputPort[T](outputIsProcessedBy(_))
+    val output = new dsl.OutputPort[T](outputIsProcessedBy(_), forwardOutput(_))
     
     // to void port name specification at binding
     /**
@@ -78,7 +78,7 @@ package de.grammarcraft.scala.flow {
      * Forwards the given message over the function units (by convention) one and only 
      * output port to the function units connected to this port.
      */
-    protected def forwardOutput(msg: T) {
+    private[this] def forwardOutput(msg: T) {
   	  if (!outputOperations.isEmpty) {
   	    outputOperations.foreach(operation => operation(msg))
   	  }
@@ -86,12 +86,24 @@ package de.grammarcraft.scala.flow {
   	    forwardIntegrationError("nothing connected to port " + OutputPortName + " for " + this + ": '" + 
   	        msg + "' could not be delivered") 
     }
+    
+    /**
+     * Represents the function unit's (by convention) one and only inner side output port.<br>
+     * This port is intended to be used for integrating function units to forward computation
+     * results from integrated function unit output ports to the integrating function unit
+     * output port. It's the so speaking inside visible outside port. The outside visible 
+     * output port {link #output} can not be used here.<br>
+     * This will allow to specify output data forwarding as<br> 
+     * <i>integratedFU.output</i> -> <i>_output</i>, or<br>
+     * <i>intergatedFU.output</i> -> <i>_output</i>.
+     */
+    protected val _output = forwardOutput(_)
   
   }
   
   package dsl {
 
-    private[flow] class OutputPort[T](register: (T => Unit) => Unit) {
+    private[flow] class OutputPort[T](register: (T => Unit) => Unit, forward: T => Unit) {
       
       /**
        * Lets the function unit's output data flow to the given input port
@@ -119,6 +131,9 @@ package de.grammarcraft.scala.flow {
        * E.g., <code>sender -> receiver</code>
        */
       def -> (functionUnitWithOnlyOneInputPort: InputPort[T]) = register(functionUnitWithOnlyOneInputPort.input(_))  
+      
+      def <= (msg: T) = { forward(msg) }
+      def <= (operation: Unit => T) = { forward(operation()) }
     } 
     
   }

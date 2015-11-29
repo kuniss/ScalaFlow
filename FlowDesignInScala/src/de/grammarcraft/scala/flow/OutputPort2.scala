@@ -41,7 +41,7 @@ trait OutputPort2[T] extends FunctionUnit {
    * Helper object for syntactic sugar allowing to write connection down as
    * <i>fu.output2</i> -> <i>receiver</i>. See definition of value <i>output2</i>.
    */  
-  val output2 = new de.grammarcraft.scala.flow.dsl.OutputPort[T](output2IsProcessedBy(_))
+  val output2 = new de.grammarcraft.scala.flow.dsl.OutputPort[T](output2IsProcessedBy(_), forwardOutput2(_))
 
   /**
    * The human readable name of this trait output port.
@@ -53,7 +53,7 @@ trait OutputPort2[T] extends FunctionUnit {
    * Forwards the given message over the function units second output port to 
    * the function units connected to this port.
    */
-  protected def forwardOutput2(msg: T) {
+  private[this] def forwardOutput2(msg: T) {
 	  if (!outputOperations.isEmpty) {
 	    outputOperations.foreach(operation => operation(msg))
 	  }
@@ -62,4 +62,15 @@ trait OutputPort2[T] extends FunctionUnit {
 	        msg + "' could not be delivered") 
   }
 
+    /**
+     * Represents the function unit's (by convention) second inner side output port.<br>
+     * This Flow DSL element is intended to be used for integrating function units to forward computation
+     * results from integrated function unit output ports to the integrating function unit
+     * output port. It's the so speaking inside visible outside port. The outside visible 
+     * output port {link #output2} can not be used here.<br>
+     * This will allow to specify output data forwarding as<br> 
+     * <i>integratedFU.output</i> -> <i>_output2</i>, or<br>
+     * <i>intergatedFU.output</i> -> <i>_output2</i>.
+     */
+    protected val _output2 = forwardOutput2(_)
 }

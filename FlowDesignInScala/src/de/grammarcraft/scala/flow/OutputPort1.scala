@@ -41,8 +41,8 @@ trait OutputPort1[T] extends FunctionUnit {
    * Helper object for syntactic sugar allowing to write connection down as
    * <i>fu.output1</i> -> <i>receiver</i>. See definition of value <i>output1</i>.
    */  
-  val output1 = new de.grammarcraft.scala.flow.dsl.OutputPort[T](output1IsProcessedBy(_))
-   
+  val output1 = new de.grammarcraft.scala.flow.dsl.OutputPort[T](output1IsProcessedBy(_), forwardOutput1(_))
+  
   /**
    * The human readable name of this trait output port.
    * May be overridden by the function unit mixing in this trait. Default is "output1"
@@ -53,7 +53,7 @@ trait OutputPort1[T] extends FunctionUnit {
    * Forwards the given message over the function units first output port to 
    * the function units connected to this port.
    */
-  protected def forwardOutput1(msg: T) {
+  private[this] def forwardOutput1(msg: T) {
 	  if (!outputOperations.isEmpty) {
 	    outputOperations.foreach(operation => operation(msg))
 	  }
@@ -61,5 +61,17 @@ trait OutputPort1[T] extends FunctionUnit {
 	    forwardIntegrationError("nothing connected to port " + OutputPort1Name + " for " + this + ": '" + 
 	        msg + "' could not be delivered") 
   }
+
+    /**
+     * Represents the function unit's (by convention) first inner side output port.<br>
+     * This Flow DSL element is intended to be used for integrating function units to forward computation
+     * results from integrated function unit output ports to the integrating function unit
+     * output port. It's the so speaking inside visible outside port. The outside visible 
+     * output port {link #output1} can not be used here.<br>
+     * This will allow to specify output data forwarding as<br> 
+     * <i>integratedFU.output</i> -> <i>_output1</i>, or<br>
+     * <i>intergatedFU.output</i> -> <i>_output1</i>.
+     */
+    protected val _output1 = forwardOutput1(_)
 
 }
