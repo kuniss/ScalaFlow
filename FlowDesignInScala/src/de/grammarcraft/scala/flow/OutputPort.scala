@@ -101,18 +101,6 @@ package de.grammarcraft.scala.flow {
   	        msg + "' could not be delivered") 
     }
     
-    /**
-     * Represents the function unit's (by convention) one and only inner side output port.<br>
-     * This port is intended to be used for integrating function units to forward computation
-     * results from integrated function unit output ports to the integrating function unit
-     * output port. It's the so speaking inside visible outside port. The outside visible 
-     * output port {link #output} can not be used here.<br>
-     * This will allow to specify output data forwarding as<br> 
-     * <i>integratedFU.output</i> -> <i>_output</i>, or<br>
-     * <i>intergatedFU.output</i> -> <i>_output</i>.
-     */
-    protected val _output = forwardOutput(_)
-  
   }
   
   package dsl {
@@ -121,10 +109,12 @@ package de.grammarcraft.scala.flow {
       
       /**
        * Lets the function unit's output data flow to the given input port
-       * connecting both function units.<br>
+       * connecting both function units or to the integrating function unit's output port.<br>
        * Flow DSL operator for connecting the function unit's output port represented by an instance of 
-       * this type to an arbitrary function unit with explicitly specified input port. <br>
-       * E.g., <code>sender.output -> receiver.input</code>
+       * this type to an arbitrary function unit with explicitly specified input port or output port 
+       * of an integrating function unit. <br>
+       * E.g., <code>sender.output -> receiver.input</code>, or<br>
+       * <code>integratedFU.output -> output.fromInside</code>
        */
       def -> (operation: T => Unit) = register(operation)
       
@@ -148,6 +138,18 @@ package de.grammarcraft.scala.flow {
       
       def <= (msg: T) = { forward(msg) }
       def <= (operation: Unit => T) = { forward(operation()) }
+      
+      /**
+       * Represents the output port of an integrating function unit seen from inside.<br>
+       * This is intended to be used for connecting an integrated function unit's output port
+       * to the output port of the integrating function unit forwarding the output data of the 
+       * integrated function unit as result of the integrating function unit.<br>
+       * This allows to use Flow DSL operator '->' for connecting function unit's output port 
+       * represented by an instance of this type to the output port of the function unit integrating 
+       * the function unit on the left hand side.<br>
+       * E.g., <code>integratedFU.output -> output.fromInside</code>
+       */
+      def fromInside: T => Unit = forward
     } 
     
   }
