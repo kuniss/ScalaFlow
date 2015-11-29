@@ -19,13 +19,11 @@ final class Cyclic extends FunctionUnit("Cyclic")
   // for meaningful names on binding to context and msg forwarding
   val run = input _
 
-  val continue = output1
+  val continue = OutputPort1("continue")
   val continueWith = _output1
-  override protected val OutputPort1Name = "continue"
 
-  val stopped = output2
+  val stopped = OutputPort2("stopped")
   val stopWith = _output2
-  override protected val OutputPort2Name = "stopped"
 
   // function unit semantic
   override protected def processInput(currentCycle: Integer) {

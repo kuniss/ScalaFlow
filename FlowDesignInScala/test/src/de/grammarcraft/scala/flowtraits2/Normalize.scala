@@ -23,10 +23,8 @@ final class Normalize extends FunctionUnit("Normalize")
 	toUpper.output -> _output2
 
 	// for meaningful names on binding to context
-	val lower = output1
-	val upper = output2
-	override protected val OutputPort1Name = "lower"
-	override protected val OutputPort2Name = "upper"
+	val lower = OutputPort1("lower")
+	val upper = OutputPort2("upper")
 
 	protected def processInput(msg: String) {
 		toLower.input(msg)
