@@ -11,7 +11,7 @@ final class Reverse extends FunctionUnit("Reverse")
   override protected val OutputPortName = "reversedString"
   
   protected def processInput(msg: String) {
-    forwardOutput(msg.reverse)
+    output <= msg.reverse
   }
 
 }

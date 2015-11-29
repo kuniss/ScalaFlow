@@ -20,11 +20,11 @@ final class Cyclic extends FunctionUnit("Cyclic")
   val run = input _
 
   val continue = output1
-  val continueWith = forwardOutput1 _
+  val continueWith = _output1
   override protected val OutputPort1Name = "continue"
 
   val stopped = output2
-  val stopWith = forwardOutput2 _
+  val stopWith = _output2
   override protected val OutputPort2Name = "stopped"
 
   // function unit semantic
@@ -35,9 +35,10 @@ final class Cyclic extends FunctionUnit("Cyclic")
       else
         stopWith(currentCycle)
     } catch {
-      case t: Throwable => forwardError(
+      case t: Throwable => 
+        error <= 
           "error on Cyclic.processInput caught on cycle " + currentCycle +
-          " : " + t.toString())
+          " : " + t.toString()
     }
   }
 }

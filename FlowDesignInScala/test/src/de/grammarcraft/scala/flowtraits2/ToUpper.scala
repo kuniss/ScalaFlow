@@ -10,7 +10,7 @@ class ToUpper extends FunctionUnit("ToUpper")
 {
 
   protected def processInput(msg: String) {
-    forwardOutput(msg.toUpperCase())
+    output <= msg.toUpperCase()
   }
 
 }

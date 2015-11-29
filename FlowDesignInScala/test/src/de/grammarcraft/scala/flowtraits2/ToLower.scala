@@ -10,7 +10,7 @@ final class ToLower extends FunctionUnit("ToLower")
 {
 
   protected def processInput(msg: String) {
-    forwardOutput(msg.toLowerCase())
+    output <= msg.toLowerCase()
   }
 
 }

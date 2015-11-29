@@ -14,12 +14,14 @@ final class Collector(val separator: String) extends FunctionUnit("Collector")
 {
   
   protected def processInput1(msg: String) {
-    if (accumulation.length >= 2) forwardError(this + " got more than two input messages; not allowed")
+    if (accumulation.length >= 2) 
+      error <= this + " got more than two input messages; not allowed"
     accumulateInput(msg)
   }
   
   protected def processInput2(msg: String) {
-    if (accumulation.length >= 2) forwardError(this + " got more than two input messages; not allowed")
+    if (accumulation.length >= 2) 
+      error <= this + " got more than two input messages; not allowed"
     accumulateInput(msg)
   }
   
@@ -31,7 +33,8 @@ final class Collector(val separator: String) extends FunctionUnit("Collector")
 		  
   private def accumulateInput(msg: String) {
 	  accumulation = msg :: accumulation
-	  if (accumulation.length == 2) forwardOutput(accumulation mkString(separator))
+	  if (accumulation.length == 2) 
+	    output <= { accumulation mkString(separator) }
   }
 
 }
