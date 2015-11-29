@@ -69,10 +69,24 @@ package de.grammarcraft.scala.flow {
     }
       
     /**
+     * Flow DSL construct to define user named output port which may be used instead 
+     * of {@link #output1} when connecting function unit ports.<br>
+     * Typically the definition is done as follows:<br>
+     * <code>val <i>myPortName</i> = OutputPort1("<i>myPortName</i>")</code>.
+     * 
+     * @param userPortName the name of this port used in integration error messages; 
+     * by convention the name of variable this object is assigned to should be used
+     */  
+    def OutputPort(userPortName: String): dsl.OutputPort[T] = {
+      this.portName = userPortName
+      return output
+    }
+
+    /**
      * The human readable name of this trait output port.
      * May be overridden by the function unit mixing in this trait. Default is "output"
      */
-    protected val OutputPortName = "output"
+    private[this] var portName = "output"
     
     /**
      * Forwards the given message over the function units (by convention) one and only 
@@ -83,7 +97,7 @@ package de.grammarcraft.scala.flow {
   	    outputOperations.foreach(operation => operation(msg))
   	  }
   	  else
-  	    forwardIntegrationError("nothing connected to port " + OutputPortName + " for " + this + ": '" + 
+  	    forwardIntegrationError("nothing connected to port " + portName + " for " + this + ": '" + 
   	        msg + "' could not be delivered") 
     }
     

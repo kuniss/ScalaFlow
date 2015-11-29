@@ -37,17 +37,31 @@ trait OutputPort1[T] extends FunctionUnit {
   }
   
   /**
-   * Represents the function unit's first output port.
+   * Represents the function unit's first output port, default named.
    * Helper object for syntactic sugar allowing to write connection down as
    * <i>fu.output1</i> -> <i>receiver</i>. See definition of value <i>output1</i>.
    */  
-  val output1 = new de.grammarcraft.scala.flow.dsl.OutputPort[T](output1IsProcessedBy(_), forwardOutput1(_))
+  val output1 = new dsl.OutputPort[T](output1IsProcessedBy(_), forwardOutput1(_))
   
   /**
-   * The human readable name of this trait output port.
+   * Flow DSL construct to define user named output port which may be used instead 
+   * of {@link #output1} when connecting function unit ports.<br>
+   * Typically the definition is done as follows:<br>
+   * <code>val <i>myPortName</i> = OutputPort1("<i>myPortName</i>")</code>.
+   * 
+   * @param userPortName the name of this port used in integration error messages; 
+   * by convention the name of variable this object is assigned to should be used
+   */  
+  def OutputPort1(userPortName: String): dsl.OutputPort[T] = {
+    this.portName = userPortName
+    return output1
+  }
+  
+  /**
+   * The human readable name of this trait's output port.
    * May be overridden by the function unit mixing in this trait. Default is "output1"
    */
-  protected val OutputPort1Name = "output1"
+  private[this] var portName = "output1"
 
   /**
    * Forwards the given message over the function units first output port to 
@@ -58,20 +72,20 @@ trait OutputPort1[T] extends FunctionUnit {
 	    outputOperations.foreach(operation => operation(msg))
 	  }
 	  else
-	    forwardIntegrationError("nothing connected to port " + OutputPort1Name + " for " + this + ": '" + 
+	    forwardIntegrationError("nothing connected to port " + portName + " for " + this + ": '" + 
 	        msg + "' could not be delivered") 
   }
 
-    /**
-     * Represents the function unit's (by convention) first inner side output port.<br>
-     * This Flow DSL element is intended to be used for integrating function units to forward computation
-     * results from integrated function unit output ports to the integrating function unit
-     * output port. It's the so speaking inside visible outside port. The outside visible 
-     * output port {link #output1} can not be used here.<br>
-     * This will allow to specify output data forwarding as<br> 
-     * <i>integratedFU.output</i> -> <i>_output1</i>, or<br>
-     * <i>intergatedFU.output</i> -> <i>_output1</i>.
-     */
-    protected val _output1 = forwardOutput1(_)
+  /**
+   * Represents the function unit's (by convention) first inner side output port.<br>
+   * This Flow DSL element is intended to be used for integrating function units to forward computation
+   * results from integrated function unit output ports to the integrating function unit
+   * output port. It's the so speaking inside visible outside port. The outside visible 
+   * output port {link #output1} can not be used here.<br>
+   * This will allow to specify output data forwarding as<br> 
+   * <i>integratedFU.output</i> -> <i>_output1</i>, or<br>
+   * <i>intergatedFU.output</i> -> <i>_output1</i>.
+   */
+  protected val _output1 = forwardOutput1(_)
 
 }
