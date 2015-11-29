@@ -39,16 +39,30 @@ package de.grammarcraft.scala.flow {
     private[flow] def _processInput(msg: T) {
   	  processInput(msg)
     }
-    
+
+    // Flow DSL related constructs and operators
+
     /**
-     * The (by convention) one only one function unit's input port.
+     * The (by convention) function unit's one and only input port.<br>
+     * Allows to forward input data to the function unit this port belongs to. E.g.,<br>
+     * <code><i>receiver.input</i> <= 13</code>, or
+     * <code><i>sender.output</i> <= { compute() }</code>, or
      */
     val input = new dsl.InputPort[T](processInput(_))
     
+    /**
+     * Flow DSL construct to define user named input port which may be used instead 
+     * of {@link #input1} when forwarding input data function unit input ports.<br>
+     * Typically the definition is done as follows:<br>
+     * <code>val <i>myPortName</i> = InputPort</code>.<br>
+     * "InputPort" directly corresponds literally to the "with InputPort" clause at the class
+     * definition header of this function unit.
+     */
     val InputPort = input
     
   }
 
+  // Flow DSL specific operators
   package dsl {
     
     private[flow] class InputPort[T](processInput: T => Unit) {
