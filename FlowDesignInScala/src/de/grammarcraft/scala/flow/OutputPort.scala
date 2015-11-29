@@ -98,7 +98,7 @@ package de.grammarcraft.scala.flow {
      * E.g., <code><i>sender</i> -> <i>receiver.input</i><code>
      */
     def -> (functionUnit: InputPort[T]) {
-  	  outputOperations = functionUnit.input _ :: outputOperations
+  	  outputOperations = functionUnit._processInput _ :: outputOperations
   	  //                                    ^ partially applied function
     }
       
@@ -136,7 +136,7 @@ package de.grammarcraft.scala.flow {
        * specifying the flow connection. <br>
        * E.g., <code>sender -> receiver</code>
        */
-      def -> (functionUnitWithOnlyOneInputPort: InputPort[T]) = register(functionUnitWithOnlyOneInputPort.input(_))  
+      def -> (functionUnitWithOnlyOneInputPort: de.grammarcraft.scala.flow.InputPort[T]) = register(functionUnitWithOnlyOneInputPort._processInput(_))  
       
       /**
        * Forwards the right hand side value to the function unit's output port given on the 

@@ -15,28 +15,64 @@
  * along with the Flow-Design Scala Library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.grammarcraft.scala.flow
-
-/**
- * Represents the one and only input port for a function unit at flow design implementations in Scala.
- * Use this trait for function units with only one input port.
- * This is an restriction by convention an not checked.
- * 
- * @author kuniss@grammarcraft.de
- */
-trait InputPort[T] {
+package de.grammarcraft.scala.flow {
 
   /**
-   * Implements how input messages received at port <i>input</i> are processed.
-   * Must be implemented at the function unit applying this trait.
+   * Represents the one and only input port for a function unit at flow design implementations in Scala.
+   * Use this trait for function units with only one input port.
+   * This is an restriction by convention an not checked.
+   * 
+   * @author kuniss@grammarcraft.de
    */
-  protected def processInput(msg: T): Unit
+  trait InputPort[T] {
   
-  /**
-   * The (by convention) one only one function unit's input port.
-   */
-  def input(msg: T) {
-	  processInput(msg)
+    /**
+     * Implements how input messages received at port <i>input</i> are processed.
+     * Must be implemented at the function unit applying this trait.
+     */
+    protected def processInput(msg: T): Unit
+
+    /**
+     * Helper method with different visibility than {@link #processInput(T)}, used 
+     * in {@link OutputPort#->(InputPort[T])} for registering it as output operation.
+     */
+    private[flow] def _processInput(msg: T) {
+  	  processInput(msg)
+    }
+    
+    /**
+     * The (by convention) one only one function unit's input port.
+     */
+    val input = new dsl.InputPort[T](processInput(_))
+    
+    val InputPort = input
+    
   }
 
+  package dsl {
+    
+    private[flow] class InputPort[T](processInput: T => Unit) {
+      /**
+       * Forwards the given value to the input port on the left hand side.<br>
+       * Flow DSL operator for forwarding a value into an input port to be processed
+       * by the function unit the input port belongs to.<br>
+       * E.g., <code>receiver.input <= 13</code>
+       */
+      def <= (msg: T) = processInput(msg)
+      
+      /**
+       * Forwards the given value computed by the given code block to the input port 
+       * on the left hand side.<br>
+       * Flow DSL operator for forwarding a value into an input port to be processed
+       * by the function unit the input port belongs to.<br>
+       * E.g., <pre>receiver.input <= {
+       *   if (stateReached) 13 else 12
+       * }
+       * </pre>
+       */
+      def <= (closure: Unit => T) = processInput(closure())
+    }
+    
+  }
+  
 }
