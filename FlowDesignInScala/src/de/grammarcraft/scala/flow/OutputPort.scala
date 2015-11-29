@@ -136,7 +136,24 @@ package de.grammarcraft.scala.flow {
        */
       def -> (functionUnitWithOnlyOneInputPort: InputPort[T]) = register(functionUnitWithOnlyOneInputPort.input(_))  
       
+      /**
+       * Forwards the right hand side value to the function unit's output port given on the 
+       * left side.<br>
+       * Flow DSL operator for forwarding computed data to a particular output port. E.g.,<br>
+       * <code><i>output</i> <= 12</code>
+       */
       def <= (msg: T) = { forward(msg) }
+
+      /**
+       * Forwards the result of the application of the right hand side code block to the 
+       * function unit's output port given on the left side.<br>
+       * Flow DSL operator for forwarding computed data to a particular output port. E.g.,<br>
+       * <pre>
+       * <i>output</i> <= {
+       * 	if (stateReached) 12 else 13
+       * }
+       * </pre>
+       */      
       def <= (operation: Unit => T) = { forward(operation()) }
       
       /**
