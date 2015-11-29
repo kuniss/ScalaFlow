@@ -39,12 +39,12 @@ trait ErrorPort[T] extends FunctionUnit { port =>
    * Helper object for syntactic sugar allowing to write connection down as
    * <i>fu.error</i> -> <i>receiver</i>.
    */
-  val error = new de.grammarcraft.scala.flow.dsl.OutputPort[T](errorIsProcessedBy(_))  
+  val error = new de.grammarcraft.scala.flow.dsl.OutputPort[T](errorIsProcessedBy(_), forwardError(_))  
 
   /**
    * The function unit's error port.
    */
-  protected def forwardError(exception: T) {
+  private[this] def forwardError(exception: T) {
 	  if (!errorOperations.isEmpty) {
 		  errorOperations.foreach(forward => forward(exception))
 	  }
