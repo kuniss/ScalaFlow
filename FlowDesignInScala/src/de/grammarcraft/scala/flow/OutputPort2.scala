@@ -27,6 +27,12 @@ package de.grammarcraft.scala.flow
  */
 trait OutputPort2[T] extends FunctionUnit {
   
+  /**
+   * The human readable name of this trait output port.
+   * May be overridden by the function unit mixing in this trait. Default is "output2"
+   */
+  private[this] var portName = "output2"
+
   private[this] var outputOperations: List[T => Unit] = List()
   
   /**
@@ -34,6 +40,19 @@ trait OutputPort2[T] extends FunctionUnit {
    */
   private[this] def output2IsProcessedBy(operation: T => Unit) {
 	  outputOperations = operation :: outputOperations
+  }
+
+  /**
+   * Forwards the given message over the function units second output port to 
+   * the function units connected to this port.
+   */
+  private[this] def forwardOutput2(msg: T) {
+	  if (!outputOperations.isEmpty) {
+	    outputOperations.foreach(operation => operation(msg))
+	  }
+	  else
+	    forwardIntegrationError("nothing connected to port " + portName + " of function unit " + this + ": '" + 
+	        msg + "' could not be delivered") 
   }
 
   /**
@@ -55,25 +74,6 @@ trait OutputPort2[T] extends FunctionUnit {
   def OutputPort2(userPortName: String): dsl.OutputPort[T] = {
     this.portName = userPortName
     return output2
-  }
-
-  /**
-   * The human readable name of this trait output port.
-   * May be overridden by the function unit mixing in this trait. Default is "output2"
-   */
-  private[this] var portName = "output2"
-
-  /**
-   * Forwards the given message over the function units second output port to 
-   * the function units connected to this port.
-   */
-  private[this] def forwardOutput2(msg: T) {
-	  if (!outputOperations.isEmpty) {
-	    outputOperations.foreach(operation => operation(msg))
-	  }
-	  else
-	    forwardIntegrationError("nothing connected to port " + portName + " of function unit " + this + ": '" + 
-	        msg + "' could not be delivered") 
   }
 
 }

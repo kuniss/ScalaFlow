@@ -27,17 +27,14 @@ package de.grammarcraft.scala.flow {
    */
   trait OutputPort[T] extends FunctionUnit {
     
+    /**
+     * The human readable name of this trait output port.
+     * May be overridden by the function unit mixing in this trait. Default is "output"
+     */
+    private[this] var portName = "output"
+    
     private[this] var outputOperations: List[T => Unit] = List()
     
-    /**
-     * Lets the function unit's output data flow to the given input port
-     * connecting both function units.<br>
-     * Flow DSL operator for connecting a function unit with one and only one output port to an 
-     * arbitrary function unit with explicitly specified input port. <br>
-     * E.g., <code>fu1 -> fu2.input</code>
-     */
-    def -> (operation: T => Unit) = outputIsProcessedBy(operation)
-  		  
     /**
      * Lets the function unit output be processed by the given function closure.  
      */
@@ -45,6 +42,21 @@ package de.grammarcraft.scala.flow {
   	  outputOperations = operation :: outputOperations
     }
   
+    /**
+     * Forwards the given message over the function units (by convention) one and only 
+     * output port to the function units connected to this port.
+     */
+    private[this] def forwardOutput(msg: T) {
+  	  if (!outputOperations.isEmpty) {
+  	    outputOperations.foreach(operation => operation(msg))
+  	  }
+  	  else
+  	    forwardIntegrationError("nothing connected to port " + portName + " for " + this + ": '" + 
+  	        msg + "' could not be delivered") 
+    }
+    
+    // Flow DSL related constructs and operators
+
     /**
      * Represents the function unit's (by convention) one and only output port.
      * Helper object for syntactic sugar allowing to specify connections as
@@ -55,19 +67,6 @@ package de.grammarcraft.scala.flow {
      */
     val output = new dsl.OutputPort[T](outputIsProcessedBy(_), forwardOutput(_))
     
-    // to void port name specification at binding
-    /**
-     * Lets the function unit's output data flow to a function unit with one and only one input port 
-     * connecting both function units.<br>
-     * Flow DSL operator for connecting a function unit with one and only one output port to an 
-     * arbitrary function unit allowing to omit input port when specifying the flow connection. <br>
-     * E.g., <code><i>sender</i> -> <i>receiver.input</i><code>
-     */
-    def -> (functionUnit: InputPort[T]) {
-  	  outputOperations = functionUnit.input _ :: outputOperations
-  	  //                                    ^ partially applied function
-    }
-      
     /**
      * Flow DSL construct to define user named output port which may be used instead 
      * of {@link #output1} when connecting function unit ports.<br>
@@ -83,26 +82,29 @@ package de.grammarcraft.scala.flow {
     }
 
     /**
-     * The human readable name of this trait output port.
-     * May be overridden by the function unit mixing in this trait. Default is "output"
+     * Lets the function unit's output data flow to the given input port
+     * connecting both function units.<br>
+     * Flow DSL operator for connecting a function unit with one and only one output port to an 
+     * arbitrary function unit with explicitly specified input port. <br>
+     * E.g., <code>fu1 -> fu2.input</code>
      */
-    private[this] var portName = "output"
-    
+    def -> (operation: T => Unit) = outputIsProcessedBy(operation)
+  		  
     /**
-     * Forwards the given message over the function units (by convention) one and only 
-     * output port to the function units connected to this port.
+     * Lets the function unit's output data flow to a function unit with one and only one input port 
+     * connecting both function units.<br>
+     * Flow DSL operator for connecting a function unit with one and only one output port to an 
+     * arbitrary function unit allowing to omit input port when specifying the flow connection. <br>
+     * E.g., <code><i>sender</i> -> <i>receiver.input</i><code>
      */
-    private[this] def forwardOutput(msg: T) {
-  	  if (!outputOperations.isEmpty) {
-  	    outputOperations.foreach(operation => operation(msg))
-  	  }
-  	  else
-  	    forwardIntegrationError("nothing connected to port " + portName + " for " + this + ": '" + 
-  	        msg + "' could not be delivered") 
+    def -> (functionUnit: InputPort[T]) {
+  	  outputOperations = functionUnit.input _ :: outputOperations
+  	  //                                    ^ partially applied function
     }
-    
+      
   }
   
+  // Flow DSL specific operations
   package dsl {
 
     private[flow] class OutputPort[T](register: (T => Unit) => Unit, forward: T => Unit) {
