@@ -31,7 +31,7 @@ trait ErrorPort[T] extends FunctionUnit { port =>
   /**
    * Lets the function unit output be processed by the given function closure.  
    */
-  private def errorIsProcessedBy(operation: T => Unit) {
+  private[this] def errorIsProcessedBy(operation: T => Unit) {
 	  errorOperations = operation :: errorOperations
   }
   

@@ -20,10 +20,10 @@ final class Cyclic extends FunctionUnit("Cyclic")
   val run = input _
 
   val continue = OutputPort1("continue")
-  val continueWith = _output1
+  val continueWith = continue.fromInside
 
   val stopped = OutputPort2("stopped")
-  val stopWith = _output2
+  val stopWith = stopped.fromInside
 
   // function unit semantic
   override protected def processInput(currentCycle: Integer) {
