@@ -27,7 +27,7 @@ object RunFlow {
 	  
 	  // run
 	  println("run them...")
-	  cyclic.run(1)
+	  cyclic.run <= 1
 	  
 	  println("finished.")
 	  

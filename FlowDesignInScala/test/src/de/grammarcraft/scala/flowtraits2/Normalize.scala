@@ -27,8 +27,8 @@ final class Normalize extends FunctionUnit("Normalize")
 	val upper = OutputPort2("upper")
 
 	protected def processInput(msg: String) {
-		toLower.input(msg)
-		toUpper.input(msg)
+		toLower.input <= msg
+		toUpper.input <= msg
 	}
   
 }

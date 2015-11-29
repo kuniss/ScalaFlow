@@ -17,7 +17,7 @@ final class Cyclic extends FunctionUnit("Cyclic")
     with ErrorPort[String]
 {
   // for meaningful names on binding to context and msg forwarding
-  val run = input _
+  val run = input
 
   val continue = OutputPort1("continue")
   val continueWith = continue.fromInside
