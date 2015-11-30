@@ -51,7 +51,7 @@ package de.grammarcraft.scala.flow {
     val input = new dsl.InputPort[T](processInput(_))
     
     /**
-     * Flow DSL construct to define user named input port which may be used instead 
+     * Flow DSL element to define user named input port which may be used instead 
      * of {@link #input1} when forwarding input data function unit input ports.<br>
      * Typically the definition is done as follows:<br>
      * <code>val <i>myPortName</i> = InputPort</code>.<br>

@@ -67,7 +67,7 @@ package de.grammarcraft.scala.flow {
     val output = new dsl.OutputPort[T](outputIsProcessedBy(_), forwardOutput(_))
     
     /**
-     * Flow DSL construct to define user named output port which may be used instead 
+     * Flow DSL element to define user named output port which may be used instead 
      * of {@link #output1} when connecting function unit ports.<br>
      * Typically the definition is done as follows:<br>
      * <code>val <i>myPortName</i> = OutputPort("<i>myPortName</i>")</code>.<br>
