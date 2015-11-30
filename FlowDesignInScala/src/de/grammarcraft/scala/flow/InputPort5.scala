@@ -34,10 +34,22 @@ trait InputPort5[T] {
   protected def processInput5(msg: T): Unit
 
   /**
-   * The function unit's fifth input port.
-   */  
-  def input5(msg: T) {
-	  processInput5(msg)
-  }
+   * The function unit's second input port.<br>
+   * Allows to forward input data to the function unit this port belongs to. E.g.,<br>
+   * <code><i>receiver.input5</i> <= 13</code>, or
+   * <code><i>receiver.input5</i> <= { compute() }</code>, or
+   */
+  val input5 = new dsl.InputPort[T](processInput5(_))
+  
+  /**
+   * Flow DSL element to define user named input port which may be used instead 
+   * of {@link #input5} when forwarding input data function unit input ports.<br>
+   * Typically the definition is done as follows:<br>
+   * <code>val <i>myPortName</i> = InputPort5</code>.<br>
+   * "InputPort5" literally corresponds  to the "with InputPort5" clause at the class
+   * definition header of this function unit.
+   */
+  val InputPort5 = input5
+
 
 }

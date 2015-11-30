@@ -34,10 +34,21 @@ trait InputPort4[T] {
   protected def processInput4(msg: T): Unit
 
   /**
-   * The function unit's fourth input port.
-   */  
-  def input4(msg: T) {
-	  processInput4(msg)
-  }
+   * The function unit's second input port.<br>
+   * Allows to forward input data to the function unit this port belongs to. E.g.,<br>
+   * <code><i>receiver.input4</i> <= 13</code>, or
+   * <code><i>receiver.input4</i> <= { compute() }</code>, or
+   */
+  val input4 = new dsl.InputPort[T](processInput4(_))
+  
+  /**
+   * Flow DSL element to define user named input port which may be used instead 
+   * of {@link #input4} when forwarding input data function unit input ports.<br>
+   * Typically the definition is done as follows:<br>
+   * <code>val <i>myPortName</i> = InputPort4</code>.<br>
+   * "InputPort4" literally corresponds  to the "with InputPort4" clause at the class
+   * definition header of this function unit.
+   */
+  val InputPort4 = input4
 
 }
