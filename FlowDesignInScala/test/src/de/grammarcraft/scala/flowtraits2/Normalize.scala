@@ -10,7 +10,7 @@ import de.grammarcraft.scala.flow.OutputPort2
  *
  */
 final class Normalize extends FunctionUnit("Normalize") 
-	with InputPort[String]
+	  with InputPort[String]
     with OutputPort1[String]
     with OutputPort2[String]
 {
