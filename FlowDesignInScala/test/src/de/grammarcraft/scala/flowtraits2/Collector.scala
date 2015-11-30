@@ -26,8 +26,8 @@ final class Collector(val separator: String) extends FunctionUnit("Collector")
   }
   
   // give ports meaningful names
-  val lower = input1 _
-  val upper = input2 _
+  val lower = InputPort1
+  val upper = InputPort2
   
   private[this] var accumulation: List[String] = List()
 		  

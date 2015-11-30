@@ -11,13 +11,13 @@ import de.grammarcraft.scala.flow.ErrorPort
  *
  */
 final class Cyclic extends FunctionUnit("Cyclic") 
-	with InputPort[Integer]
+	  with InputPort[Integer]
     with OutputPort1[Integer]
     with OutputPort2[Integer]
     with ErrorPort[String]
 {
   // for meaningful names on binding to context and msg forwarding
-  val run = input
+  val run = InputPort
 
   val continue = OutputPort1("continue")
   val continueWith = continue.fromInside
