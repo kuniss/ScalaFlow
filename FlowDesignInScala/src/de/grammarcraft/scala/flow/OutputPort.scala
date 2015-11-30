@@ -100,7 +100,7 @@ package de.grammarcraft.scala.flow {
      */
     def -> (functionUnit: InputPort[T]) {
   	  outputOperations = functionUnit._processInput _ :: outputOperations
-  	  //                                    ^ partially applied function
+  	  //                                            ^ partially applied function
     }
       
   }
@@ -132,13 +132,22 @@ package de.grammarcraft.scala.flow {
       /**
        * Lets the function unit's output data flow to a function unit with one and only one input port 
        * connecting both function units.<br>
-       * Flow DSL operator for connecting a function unit with one and only one output port to an 
-       * arbitrary function unit with one and only one input port allowing to omit both input ports when 
-       * specifying the flow connection. <br>
-       * E.g., <code>sender -> receiver</code>
+       * Flow DSL operator for connecting a function unit's output port to an 
+       * arbitrary function unit with one and only one input port allowing to omit the receivers input 
+       * ports when specifying the flow connection. <br>
+       * E.g., <code>sender.output -> receiver</code>
        */
-      def -> (functionUnitWithOnlyOneInputPort: de.grammarcraft.scala.flow.InputPort[T]) = register(functionUnitWithOnlyOneInputPort._processInput(_))  
+      def -> (functionUnitWithOnlyOneInputPort: de.grammarcraft.scala.flow.InputPort[T]) = register(functionUnitWithOnlyOneInputPort.input.processInputOperation(_))  
       
+      /**
+       * Lets the function unit's output data flow to a given function unit's input port 
+       * connecting both function units.<br>
+       * Flow DSL operator for connecting a function unit's output port to an 
+       * arbitrary function unit's input port when specifying the flow connection. <br>
+       * E.g., <code>sender.output -> receiver.input</code>
+       */
+      def -> (inputPort: de.grammarcraft.scala.flow.dsl.InputPort[T]) = register(inputPort.processInputOperation(_))  
+
       /**
        * Forwards the right hand side value to the function unit's output port given on the 
        * left side.<br>
