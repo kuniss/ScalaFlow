@@ -157,7 +157,7 @@ package de.grammarcraft.scala.flow {
        * }
        * </pre>
        */      
-      def <= (operation: Unit => T) = { forward(operation()) }
+      def <= (closure: Unit => T) = { forward(closure()) }
       
       /**
        * Represents the output port of an integrating function unit seen from inside.<br>
