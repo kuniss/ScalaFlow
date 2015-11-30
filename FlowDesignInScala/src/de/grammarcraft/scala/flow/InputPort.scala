@@ -85,6 +85,8 @@ package de.grammarcraft.scala.flow {
        * </pre>
        */
       def <= (closure: Unit => T) = processInput(closure())
+      
+      private[flow] def processInputOperation = processInput
     }
     
   }
