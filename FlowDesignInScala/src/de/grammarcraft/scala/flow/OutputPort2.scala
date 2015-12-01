@@ -64,9 +64,9 @@ trait OutputPort2[T] extends FunctionUnit {
 
   /**
    * Flow DSL element to define user named output port which may be used instead 
-   * of {@link #output1} when connecting function unit ports.<br>
+   * of {@link #output2} when connecting function unit ports.<br>
    * Typically the definition is done as follows:<br>
-   * <code>val <i>myPortName</i> = OutputPort1("<i>myPortName</i>")</code>.
+   * <code>val <i>myPortName</i> = OutputPort2("<i>myPortName</i>")</code>.
    * "OutputPort" literally corresponds to the "with OutputPort" clause at the class
    * definition header of this function unit.
    * 
