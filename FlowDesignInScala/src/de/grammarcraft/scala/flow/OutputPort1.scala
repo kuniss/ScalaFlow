@@ -58,7 +58,7 @@ trait OutputPort1[T] extends FunctionUnit {
   /**
    * Represents the function unit's first output port, default named.
    * Helper object for syntactic sugar allowing to write connection down as
-   * <i>fu.output1</i> -> <i>receiver</i>. See definition of value <i>output1</i>.
+   * <i>fu.output1</i> -> <i>receiver</i>.
    */  
   val output1 = new dsl.OutputPort[T](output1IsProcessedBy(_), forwardOutput1(_))
   

@@ -58,7 +58,7 @@ trait OutputPort2[T] extends FunctionUnit {
   /**
    * Represents the function unit's second output port.
    * Helper object for syntactic sugar allowing to write connection down as
-   * <i>fu.output2</i> -> <i>receiver</i>. See definition of value <i>output2</i>.
+   * <i>fu.output2</i> -> <i>receiver</i>.
    */  
   val output2 = new de.grammarcraft.scala.flow.dsl.OutputPort[T](output2IsProcessedBy(_), forwardOutput2(_))
 
