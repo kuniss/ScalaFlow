@@ -16,9 +16,9 @@ object RunFlow {
 	  reverse -> normalizer
 	  normalizer.lower -> collector.lower
 	  normalizer.upper -> collector.upper
-	  collector.output isProcessedBy(msg => {
+	  on(collector.output) { msg => 
 		  println("received '" + msg + "' from " + collector)
-	  })
+	  }
 
 	  onErrorAt(collector)  {
 		  errMsg => println("error received: " + errMsg)

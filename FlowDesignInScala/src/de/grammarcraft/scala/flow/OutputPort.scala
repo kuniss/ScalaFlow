@@ -121,14 +121,6 @@ package de.grammarcraft.scala.flow {
       def -> (operation: T => Unit) = register(operation)
       
       /**
-       * Lets the function unit's output data being processed by the given closure.<br>
-       * Flow DSL "control structure" for specifying how function unit's output has to be processed.
-       * Typically used for implementing side effects in the middle (logging) or the end of a flow (outputting result).<br>
-       * E.g., <code><i>sender.output</i> isProcessyBy { msg => println("result: " + msg)</code>
-       */
-      def isProcessedBy(operation: T => Unit) = register(operation)
-    
-      /**
        * Lets the function unit's output data flow to a function unit with one and only one input port 
        * connecting both function units.<br>
        * Flow DSL operator for connecting a function unit's output port to an 
