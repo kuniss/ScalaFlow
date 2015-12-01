@@ -38,14 +38,14 @@ package de.grammarcraft.scala.flow {
     /**
      * The (by convention) function unit's one and only input port.<br>
      * Allows to forward input data to the function unit this port belongs to. E.g.,<br>
-     * <code><i>receiver.input</i> <= 13</code>, or
+     * <code><i>receiver.input</i> <= 13</code>, or<br>
      * <code><i>receiver.input</i> <= { compute() }</code>, or
      */
     val input = new dsl.InputPort[T](processInput(_))
     
     /**
      * Flow DSL element to define user named input port which may be used instead 
-     * of {@link #input} when forwarding input data function unit input ports.<br>
+     * of [[de.grammarcraft.scala.flow.InputPort[T].input]] when forwarding input data function unit input ports.<br>
      * Typically the definition is done as follows:<br>
      * <code>val <i>myPortName</i> = InputPort</code>.<br>
      * "InputPort" literally corresponds  to the "with InputPort" clause at the class
@@ -71,11 +71,12 @@ package de.grammarcraft.scala.flow {
        * Forwards the given value computed by the given code block to the input port 
        * on the left hand side.<br>
        * Flow DSL operator for forwarding a value into an input port to be processed
-       * by the function unit the input port belongs to.<br>
-       * E.g., <pre>receiver.input <= {
+       * by the function unit the input port belongs to. E.g.,
+       * {{{
+       * <pre>receiver.input <= {
        *   if (stateReached) 13 else 12
        * }
-       * </pre>
+       * }}}
        */
       def <= (closure: Unit => T) = processInput(closure())
       

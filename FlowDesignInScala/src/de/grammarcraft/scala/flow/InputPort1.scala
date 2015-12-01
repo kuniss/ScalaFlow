@@ -43,7 +43,7 @@ trait InputPort1[T] {
   
   /**
    * Flow DSL element to define user named input port which may be used instead 
-   * of {@link #input1} when forwarding input data function unit input ports.<br>
+   * of [[de.grammarcraft.scala.flow.InputPort1[T].input1]] when forwarding input data function unit input ports.<br>
    * Typically the definition is done as follows:<br>
    * <code>val <i>myPortName</i> = InputPort1</code>.<br>
    * "InputPort1" literally corresponds  to the "with InputPort1" clause at the class

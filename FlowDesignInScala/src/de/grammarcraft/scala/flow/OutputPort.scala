@@ -59,16 +59,16 @@ package de.grammarcraft.scala.flow {
 
     /**
      * Represents the function unit's (by convention) one and only output port.
-     * Helper object for syntactic sugar allowing to specify connections as
-     * <code><i>sender.output</i> -> <i>receiver</i></code>, or
-     * <code><i>sender.output</i> -> <i>receiver.input</i></code>, or
+     * Helper object for syntactic sugar allowing to specify connections as<br>
+     * <code><i>sender.output</i> -> <i>receiver</i></code>, or<br>
+     * <code><i>sender.output</i> -> <i>receiver.input</i></code>, or<br>
      * <code><i>sender.output</i> -> <i>receiver</i></code>.
      */
     val output = new dsl.OutputPort[T](outputIsProcessedBy(_), forwardOutput(_))
     
     /**
      * Flow DSL element to define user named output port which may be used instead 
-     * of {@link #output1} when connecting function unit ports.<br>
+     * of [[de.grammarcraft.scala.flow.OutputPort[T].output]] when connecting function unit ports.<br>
      * Typically the definition is done as follows:<br>
      * <code>val <i>myPortName</i> = OutputPort("<i>myPortName</i>")</code>.<br>
      * "OutputPort" literally corresponds to the "with OutputPort" clause at the class
@@ -159,11 +159,11 @@ package de.grammarcraft.scala.flow {
        * Forwards the result of the application of the right hand side code block to the 
        * function unit's output port given on the left side.<br>
        * Flow DSL operator for forwarding computed data to a particular output port. E.g.,<br>
-       * <pre>
-       * <i>output</i> <= {
+       * {{{
+       * output <= {
        * 	if (stateReached) 12 else 13
        * }
-       * </pre>
+       * }}}
        */      
       def <= (closure: Unit => T) = { forward(closure()) }
       

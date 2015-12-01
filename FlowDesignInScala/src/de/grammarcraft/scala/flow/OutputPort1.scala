@@ -64,7 +64,7 @@ trait OutputPort1[T] extends FunctionUnit {
   
   /**
    * Flow DSL element to define user named output port which may be used instead 
-   * of {@link #output1} when connecting function unit ports.<br>
+   * of [[de.grammarcraft.scala.flow.OutputPort1[T].output1]] when connecting function unit ports.<br>
    * Typically the definition is done as follows:<br>
    * <code>val <i>myPortName</i> = OutputPort1("<i>myPortName</i>")</code>.
    * "OutputPort1" literally corresponds to the "with OutputPort1" clause at the class
