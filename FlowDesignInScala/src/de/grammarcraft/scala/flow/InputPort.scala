@@ -32,13 +32,6 @@ package de.grammarcraft.scala.flow {
      */
     protected def processInput(msg: T): Unit
 
-    /**
-     * Helper method with different visibility than {@link #processInput(T)}, used 
-     * in {@link OutputPort#->(InputPort[T])} for registering it as output operation.
-     */
-    private[flow] def _processInput(msg: T) {
-  	  processInput(msg)
-    }
 
     // Flow DSL related constructs and operators
 

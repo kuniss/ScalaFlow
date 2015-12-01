@@ -99,8 +99,7 @@ package de.grammarcraft.scala.flow {
      * E.g., <code><i>sender</i> -> <i>receiver.input</i><code>
      */
     def -> (functionUnit: InputPort[T]) {
-  	  outputOperations = functionUnit._processInput _ :: outputOperations
-  	  //                                            ^ partially applied function
+  	  outputOperations = functionUnit.input.processInputOperation :: outputOperations
     }
       
   }
