@@ -19,8 +19,8 @@ final class Normalize extends FunctionUnit("Normalize")
 	val toUpper = new ToUpper
 
 	// bind 
-	toLower.output -> output1.fromInside
-	toUpper.output -> output2.fromInside
+	toLower.output -> output1
+	toUpper.output -> output2
 
 	// for meaningful names on binding to context
 	val lower = OutputPort1("lower")

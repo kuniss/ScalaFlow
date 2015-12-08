@@ -101,7 +101,18 @@ package de.grammarcraft.scala.flow {
     def -> (functionUnit: InputPort[T]) {
   	  outputOperations = functionUnit.input.processInputOperation :: outputOperations
     }
-      
+
+    /**
+     * Lets output data of an integrated function unit with one and only one port flow to the 
+     * integrating function unit's own output port.<br>
+     * Flow DSL operator for connecting the output port of an integrated function unit
+     * to the output port of the integrating function unit. E.g.
+     * {{{
+     * integratedFU -> output
+     * }}}
+     */
+    def -> (ownOutputPort: dsl.OutputPort[T]) = outputIsProcessedBy(ownOutputPort.fromInside)
+ 
   }
   
   // Flow DSL specific operators
@@ -111,14 +122,25 @@ package de.grammarcraft.scala.flow {
       
       /**
        * Lets the function unit's output data flow to the given input port
-       * connecting both function units or to the integrating function unit's output port.<br>
+       * connecting both function units.<br>
        * Flow DSL operator for connecting the function unit's output port represented by an instance of 
-       * this type to an arbitrary function unit with explicitly specified input port or output port 
-       * of an integrating function unit. <br>
-       * E.g., <code>sender.output -> receiver.input</code>, or<br>
-       * <code>integratedFU.output -> output.fromInside</code>
+       * this type to an arbitrary function unit with explicitly specified input port.<br>
+       * E.g., <code>sender.output -> receiver.input</code>
        */
       def -> (operation: T => Unit) = register(operation)
+      
+      /**
+       * Lets output data of an integrated function unit flow to the integrating function
+       * unit's own output port.<br>
+       * Flow DSL operator for connecting the output port of an integrated function unit
+       * to the output port of the integrating function unit. E.g.
+       * {{{
+       * integratedFU.output -> output
+       * }}}
+       */
+      def -> (ownOutputPort: dsl.OutputPort[T]) = register(ownOutputPort.fromInside)
+
+      private[flow] def fromInside: T => Unit = forward
       
       /**
        * Lets the function unit's output data flow to a function unit with one and only one input port 
@@ -159,17 +181,6 @@ package de.grammarcraft.scala.flow {
        */      
       def <= (closure: Unit => T) = { forward(closure(())) }
       
-      /**
-       * Represents the output port of an integrating function unit seen from inside.<br>
-       * This is intended to be used for connecting an integrated function unit's output port
-       * to the output port of the integrating function unit forwarding the output data of the 
-       * integrated function unit as result of the integrating function unit.<br>
-       * This allows to use Flow DSL operator '->' for connecting function unit's output port 
-       * represented by an instance of this type to the output port of the function unit integrating 
-       * the function unit on the left hand side.<br>
-       * E.g., <code>integratedFU.output -> output.fromInside</code>
-       */
-      def fromInside: T => Unit = forward
     } 
     
   }
