@@ -1,7 +1,7 @@
 plugins {
 	id 'scala'
 	id 'eclipse'
-	id 'com.github.oehme.sobula.bintray-release' version '0.6.5'
+	id 'com.github.oehme.sobula.bintray-release' version '0.6.6'
 }
 
 group = "de.grammarcraft"
@@ -17,7 +17,6 @@ contacts {
 
 bintray.user = "kuniss"
 bintray.pkg.version.mavenCentralSync.user = "kuniss"
-bintray.pkg.licenses = ["LGPL-3.0"]
 
 repositories.jcenter()
 
