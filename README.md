@@ -168,3 +168,12 @@ fu1.output -> fu2
 fu1 -> fu2.output
 ```
 
+### Implementing Side Effects
+
+Beside the normal port wiring some time a side effect wants to be specified (e.g. explicit logging). To make this explicit, the special DSL construct `on` has been defined which accepts a code block like closure specifcation:
+```scala
+	  on(collector.output) { msg => 
+		  println("received '" + msg + "' from " + collector)
+	  }
+```
+Here the output data leaving the `collector` function unit trough the `output` port are printed on the standard out.
