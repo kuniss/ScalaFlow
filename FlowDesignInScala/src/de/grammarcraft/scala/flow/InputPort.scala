@@ -53,6 +53,25 @@ package de.grammarcraft.scala.flow {
      */
     val InputPort = input
     
+    /**
+     * Forwards the given value to the one and only a value into an input port of this 
+     * function unit to be processed by the function unit.<br>
+     * E.g., <code>receiver.input <= 13</code>
+     */
+    def <= (msg: T) = processInput(msg)
+    
+    /**
+     * Forwards the given value computed by the given code block to the one and only input port 
+     * of this function unit on the left hand side.<br>
+     * Flow DSL operator for forwarding a value into an input port to be processed
+     * by the function unit the input port belongs to. E.g.,
+     * {{{
+     * <pre>receiver.input <= {
+     *   if (stateReached) 13 else 12
+     * }
+     * }}}
+     */
+    def <= (closure: Unit => T) = processInput(closure(()))
   }
 
   // Flow DSL specific operators

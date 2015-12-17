@@ -13,22 +13,22 @@ final class Normalize extends FunctionUnit("Normalize")
 	  with InputPort[String]
     with OutputPort1[String]
     with OutputPort2[String]
-{
- 
-	val toLower = new ToLower
-	val toUpper = new ToUpper
-
-	// bind 
-	toLower.output -> output1
-	toUpper.output -> output2
-
+{ 
 	// for meaningful names on binding to context
 	val lower = OutputPort1("lower")
 	val upper = OutputPort2("upper")
 
+	val toLower = new ToLower
+	val toUpper = new ToUpper
+
+	// bind 
+	toLower -> lower
+	toUpper -> upper
+
+
 	protected def processInput(msg: String) {
-		toLower.input <= msg
-		toUpper.input <= msg
+		toLower <= msg
+		toUpper <= msg
 	}
   
 }
