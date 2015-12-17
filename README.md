@@ -78,8 +78,93 @@ output <= {
 
 ## Operation Unit
 
-TODO
+The IODA architecture approach defines an operation as a function unit that contains logic and may have control flow.
+The entry point to the logic are the input data processing methods `processInputX` defined for each input port of a particular operation unit.
+The result of the computation logic is forwarded to the appropriate output port at the end of the logic processing using the frward operator `<=`. Here is an example with quite easy logic and no control flow:
+
+```scala
+class ToUpper extends FunctionUnit("ToUpper") 
+	with InputPort[String] 
+	with OutputPort[String]
+{
+
+  protected def processInput(msg: String) {
+    output <= msg.toUpperCase()
+  }
+```
+
 
 ## Integration Unit
 
-TODO
+While operation units are used for implementing the pieces of logic a system is composed of, the only reason of integration units following the IODA architecture approach is the integration of other function units, operation or integration units. Integration units are used to compose systems and parts of systems. 
+Nevertheless they are treated as function units as well, having input and output ports. Therefore input ports and output ports are declared in the same way.
+
+```scala
+final class Normalize extends FunctionUnit("Normalize") 
+    with InputPort[String]
+    with OutputPort1[String]
+    with OutputPort2[String]
+{
+  ...
+}
+```
+
+Separating operation units - for implementing functionality - from integration units for integration purposes is one of the main goals of the IODA architecture and within Flow Design. It allows to structure software systems in several levels of abstraction having implementation details only on the lowest level of abstraction. On upper level of abstraction the implementation consist of integration functionality only, represented by integration units.
+This is the second main principle of Flow Design and follows closely the [Integration Operation Segregation Principle (IOSP)](http://geekswithblogs.net/theArchitectsNapkin/archive/2014/09/13/the-incremental-architectacutes-napkin---7---nest-flows-to.aspx). 
+
+### Port Wiring Operator `->`
+
+The function units are either instantiated by the board or passed via constructor injection. Any [Dependency Injection](https://en.wikipedia.org/wiki/Dependency_injection) approach could be applied here.
+
+As integrating is the only reason for an integration unit, it normally has only a constructor method, nothing else.
+This constructor connects output to input ports of the integrated function units, as well as the integration unit's own
+input ports to the integrated function unit's input ports, and the integrated function unit's output ports to the integration unit's own output ports. 
+For this the wiring operator `->` is used. Here comes an example:
+
+```scala
+final class Normalize extends FunctionUnit("Normalize") 
+    with InputPort[String]
+    with OutputPort1[String]
+    with OutputPort2[String]
+{ 
+	// for meaningful names on binding to context
+	val lower = OutputPort1("lower")
+	val upper = OutputPort2("upper")
+
+	val toLower = new ToLower
+	val toUpper = new ToUpper
+
+	// bind 
+	toLower -> lower
+	toUpper -> upper
+
+        ...
+}
+```  
+In this example the output from the `ToLower` and `ToUpper` function units are flowing to the output ports `lower` and `upper` of the integrating function unit `Normalize`.
+The input data flying in through the input port `input` defined by trait `InputPort` is processed by the according `processInput` method and forwarded to the integrated function units `ToLower` and `ToUpper`:
+```scala
+	protected def processInput(msg: String) {
+		toLower <= msg
+		toUpper <= msg
+	}
+```
+
+The wiring follows the data flow implemented by the system to be designed. The Xtend class above integrates the two instances of function units `ToLower` and `ToUpper` as shown in the following figure. In fact, it does not matter whether the integrated function units are integration or operation function units!
+
+![Integrating Function Unit](http://blog.grammarcraft.de/wp-content/uploads/2013/07/Bild3-Normalize-reingezoomt1.png)
+
+The wiring operator works for full qualified port names, like
+```
+fu1.output -> fu2.input
+```
+as well as for function units with only one input or output port, like
+```
+fu1 -> fu2
+```
+as well as for mixed combinations, like
+```
+fu1.output -> fu2
+fu1 -> fu2.output
+```
+
