@@ -177,3 +177,28 @@ Beside the normal port wiring some time a side effect wants to be specified (e.g
 	  }
 ```
 Here the output data leaving the `collector` function unit trough the `output` port are printed on the standard out.
+
+## Error Handling
+
+
+### Integration Error Handling
+
+An integration error is given if a declared output port is not connected to any input port nor any closure processing message from it. This is a meta-model error and is treated by the library by the special port `intergationError` of type `String` predefined for each function unit. By default this port is always connected to a closure printing a fatal error message on the error console.
+
+However, this connection may be overridden by the library user, explicitly forwarding the exception to an user defined closure or input port.
+
+```
+on(fu.integrationError) { log.fatal("integration error happened: {0}", exception.message) } 
+```
+
+as this may become a hassle if for all instantiated function units the same closure has to be connected, there is an helper expression implemented where a bunch of function units may be connected at once to one closure:
+```
+ 	onIntegrationErrorAt(reverse, normalizer) {
+		  errMsg => System.err.println("integration error happened: " + errMsg)
+	}
+```
+
+Here, the variables `reverse` and `collector` are referencing function unit instances.
+
+### Model Error Handling
+TODO
