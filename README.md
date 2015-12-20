@@ -200,5 +200,23 @@ as this may become a hassle if for all instantiated function units the same clos
 
 Here, the variables `reverse` and `collector` are referencing function unit instances.
 
+
 ### Model Error Handling
+
+The more interesting part for system designers is, how to handle errors which are inherent part of the system to be modeled. 
+In fact, this is quite easy: You may use the predefined trait `ErrorPort`. This will allow you to subsume all error ports at one integrating function unit to forward to the same output port or be processed by teh same closure using the predefined DSL construct `onErrorAt` as shown below.
+
+```scala
+  onErrorAt(collector)  {
+    errMsg => println("error received: " + errMsg)
+  }
+```
+
+Or, you may design an error port as ordinary port. As errors are still messages flowing through the system and they be handled explicitly by system's design. 
+
+The only adavantage of using `ErrorPort` is its explicit specifcation as error port and the possibility to handle several error ports at once by the `onErrorAt` construct.
+
+## Example
+
 TODO
+
