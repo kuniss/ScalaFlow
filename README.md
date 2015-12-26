@@ -218,5 +218,79 @@ The only adavantage of using `ErrorPort` is its explicit specifcation as error p
 
 ## Example
 
-TODO
+A simple example applying this notation may be found [in the test sources of this project](https://github.com/kuniss/ScalaFlow/tree/master/FlowDesignInScala/test/src/de/grammarcraft/scala/flowtraits2).
 
+A non-trivial but simple example may be found [in this respository](https://github.com/kuniss/ScalaFlow-Examples/tree/master/ScalaFlow-ConvertRoman).
+
+
+## Runtime Cost Considerations
+
+In fact, wiring up ports results in method call implementations which are not very expensive and are almost well optimized by the Hotspot JVM.
+
+E.g., the wiring of the function units from the example above into a chain, throwing an exception at the end, like
+```
+  reverse -> toUpper
+  toUpper -> toLower
+  toLower -> { msg => throw new RuntimeException(msg) }
+         
+  try {
+    reverse <= "some input"
+  }
+  catch {
+    case re: RuntimeException => re.printStackTrace
+  }
+```
+will result in an exception with the following stack trace (shorten to show the important calls):
+```
+java.lang.RuntimeException: tupni emos
+	at de.grammarcraft.scala.flowtraits2.CallStackExample$$anonfun$main$1.apply(CallStackExample.scala:14)
+	...
+	at de.grammarcraft.scala.flow.OutputPort$class.de$grammarcraft$scala$flow$OutputPort$$forwardOutput(OutputPort.scala:51)
+	...
+	at de.grammarcraft.scala.flowtraits2.ToLower.processInput(ToLower.scala:13)
+	...
+	at de.grammarcraft.scala.flow.OutputPort$class.de$grammarcraft$scala$flow$OutputPort$$forwardOutput(OutputPort.scala:51)
+	...
+	at de.grammarcraft.scala.flowtraits2.ToUpper.processInput(ToUpper.scala:13)
+	...
+	at de.grammarcraft.scala.flow.OutputPort$class.de$grammarcraft$scala$flow$OutputPort$$forwardOutput(OutputPort.scala:51)
+	...
+	at de.grammarcraft.scala.flowtraits2.Reverse.processInput(Reverse.scala:14)
+	...
+	at de.grammarcraft.scala.flowtraits2.CallStackExample.main(CallStackExample.scala)
+```
+
+## Concurrency Considerations
+
+The message forwarding mechanisms of this Flow Design implementation are not thread safe at all. 
+So, if messages may be forwarded to an input port of a function unit instance in concurrent situations, means, the particular `processInputX` method of  that input port may be called concurrently from different threads, the implementation of this method must handle such concurrent calls properly by a thread safe internal implementation according to the Scala synchronization rules.
+
+Detecting concurrent situations in the system to be designed is an inherent mission of the system designer. Flow design does not help him in that challenge. However, support may be added in later versions of the library, when the actors concept is integrated letting function units becomes actors for concurrent designs. An example for combining the Flow Design approach with the Actors Design may be found in Ralf Westphal's article ["Actors in a IODA Architecture by Example"](http://geekswithblogs.net/theArchitectsNapkin/archive/2015/05/12/actors-in-a-ioda-architecture-by-example.aspx)
+
+## Flow Cycle Considerations
+
+The designer has strictly to avoid specifying direct or indirect cycles in the message flow! Cycles cannot be detected by the compiler as the library and its notation has been realized as an internal DSL utilizing Scala's opoerator overriding capabilities. For detecting cycles, the analysis of the global context would be needed. This may only be done by a compiler of an external DSL.
+
+Who understands German may read my [blog article](http://blog.grammarcraft.de/2014/02/08/kreisfluss-rueckgekoppelte-systeme-mit-flow-design/) about that issue.
+
+## Build Integration
+
+The library is provided for arbitrary build systems via
+[Bintray](https://bintray.com/kuniss/maven/de.grammarcraft.scala.flow/view) 
+and via [Maven Central](http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22de.grammarcraft.scala.flow%22) thanks to [Stefan Öhme's article](http://mnmlst-dvlpr.blogspot.de/2014/12/my-lightweight-release-process.html).
+
+E.g., the integration via Gradle is as follows:
+```
+dependencies {
+    compile 'de.grammarcraft:de.grammarcraft.scala.flow:0.1.+'
+}
+```
+
+
+## How It Gets Released
+
+The building is done applying Gradle plugins 
+for [Scala compiling](https://docs.gradle.org/current/userguide/scala_plugin.html) 
+and [for releasing to Bintray and Maven Central](http://plugins.gradle.org/plugin/com.github.oehme.sobula.bintray-release).
+
+The build is running on [Travis CI](https://travis-ci.org/kuniss/ScalaFlow).
