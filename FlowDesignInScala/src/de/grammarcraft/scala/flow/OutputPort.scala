@@ -121,11 +121,11 @@ package de.grammarcraft.scala.flow {
     private[flow] class OutputPort[T](register: (T => Unit) => Unit, forward: T => Unit) {
       
       /**
-       * Lets the function unit's output data flow to the given input port
-       * connecting both function units.<br>
+       * Lets the function unit's output data flow to a block of statements 
+       * for performing side effects.<br>
        * Flow DSL operator for connecting the function unit's output port represented by an instance of 
-       * this type to an arbitrary function unit with explicitly specified input port.<br>
-       * E.g., <code>sender.output -> receiver.input</code>
+       * this type to an arbitrary block of statements operating on the sent result.<br>
+       * E.g., <code>sender.output -> { ... }</code>
        */
       def -> (operation: T => Unit) = register(operation)
       
