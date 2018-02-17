@@ -11,11 +11,11 @@ object RunFlow {
 	  // bind
 	  println("bind them...")
 	  cyclic.continue -> cyclic.run
-	  cyclic.stopped -> (
+	  cyclic.stopped -> {
 	      cyclicCounter => {
 	    	  println(cyclic + " stopped on " + cyclicCounter)
 	      }
-	  )
+	  }
 
 	  onErrorAt(cyclic)  {
 		  errMsg => println("error received: " + errMsg)
