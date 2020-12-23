@@ -1,4 +1,6 @@
-ScalaFlow - Flow Design in Scala [![Build Status](https://github.com/kuniss/ScalaFlow/workflows/Build/badge.svg)](https://github.com/kuniss/ScalaFlow/actions)  [![Bintray](https://api.bintray.com/packages/kuniss/maven/de.grammarcraft.scala.flow/images/download.svg) ](https://bintray.com/kuniss/maven/de.grammarcraft.scala.flow/_latestVersion) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/de.grammarcraft/de.grammarcraft.scala.flow/badge.svg)](https://maven-badges.herokuapp.com/maven-central/de.grammarcraft/de.grammarcraft.scala.flow/)
+[![Build Status](https://github.com/kuniss/ScalaFlow/workflows/Build/badge.svg)](https://github.com/kuniss/ScalaFlow/actions)  [![Bintray](https://api.bintray.com/packages/kuniss/maven/de.grammarcraft.scala.flow/images/download.svg) ](https://bintray.com/kuniss/maven/de.grammarcraft.scala.flow/_latestVersion) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/de.grammarcraft/de.grammarcraft.scala.flow/badge.svg)](https://maven-badges.herokuapp.com/maven-central/de.grammarcraft/de.grammarcraft.scala.flow/)
+
+ScalaFlow - Flow Design in Scala
 =====================================================================================================================
 
 [![Get automatic notifications about new "de.grammarcraft.xtend.scala" versions](https://www.bintray.com/docs/images/bintray_badge_color.png) ](https://bintray.com/kuniss/maven/de.grammarcraft.scala.flow/view?source=watch)
